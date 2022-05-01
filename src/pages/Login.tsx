@@ -186,9 +186,9 @@ const Login: React.FC<LoginProps> = ({
             </p>
           </div>
           <div className="mb-auto">
-            <div className="w-full my-8 bg-purple-600 text-white py-4  rounded-xl font-bold">
+            <a href="/signup-phone-number" className="w-full my-8 bg-purple-600 text-white py-4 block rounded-xl font-bold">
               Sign up with phone number{" "}
-            </div>
+            </a>
             <div>or</div>
             <div className="w-full my-4 border-2 py-4 border-gray-300  rounded-xl">
               Sign up with Google{" "}

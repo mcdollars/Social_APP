@@ -23,7 +23,7 @@ import {
   setEmail,
 } from "../data/user/user.actions";
 import { connect } from "../data/connect";
-import { RouteComponentProps } from "react-router";
+import { RouteComponentProps, useLocation } from "react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 
@@ -43,30 +43,68 @@ const SignupVerify: React.FC<LoginProps> = ({
   setUsername: setUsernameAction,
   setEmail: setEmailAction,
 }) => {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const location = useLocation();
+  const state: any = location.state;
+
+  const [otp, setOTP] = useState("");
   const [formSubmitted, setFormSubmitted] = useState(false);
-  const [usernameError, setUsernameError] = useState(false);
-  const [emailError, setEmailError] = useState(false);
-  const [passwordError, setPasswordError] = useState(false);
+  const [otpError, setOtpError] = useState(false);
 
   const login = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormSubmitted(true);
-    if (!email) {
-      setEmailError(true);
-    }
-    if (!password) {
-      setPasswordError(true);
+    if (!otp) {
+      setOtpError(true);
     }
 
-    if (email && password) {
-      await setIsLoggedIn(true);
-      await setEmailAction(email);
-      history.push("/tabs/schedule", { direction: "none" });
+    if (otp && formSubmitted) {
+      // await setIsLoggedIn(true);
+      // await setEmailAction(email);
+      // history.push("/tabs/schedule", { direction: "none" });
+      console.log(location);
     }
   };
+
+  React.useEffect(() => {
+    const handleOTP = async (token: string, otp: string) => {
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_API}/auth/verify-pre-signup?token=${token}`,
+          {
+            method: "POST",
+            body: JSON.stringify({ otp }),
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+              "x-access-token": token,
+            },
+          }
+        );
+
+        if (!response.ok) {
+          const message = await response.json();
+          console.log(message)
+        } else {
+          const result = await response.json();
+          console.log(result);
+          // await setIsLoggedIn(true);
+          // await setEmailAction(email);
+          if (result) {
+            history.push("/signup-complete-profile", {
+              direction: "none",
+              state: result,
+            });
+          }
+        }
+      } catch (err) {
+        console.log(err)
+      }
+    };
+
+    if (otp.length === 4) {
+      handleOTP(state.state.token, otp);
+    }
+  }, [otp]);
 
   return (
     <IonPage id="login-page">
@@ -93,35 +131,12 @@ const SignupVerify: React.FC<LoginProps> = ({
         <form noValidate onSubmit={login} className="px-4 mb-auto">
           <div className="flex flex-row justify-around">
             <input
-              name="input1"
+              name="otp"
               type="number"
-              className="p-2 border-2 border-gray-100 rounded-xl w-1/6 block mb-8 bg-gray-100"
-              value={email}
-              onChange={(e) => setEmail(e.target.value!)}
-              required
-            ></input>
-            <input
-              name="input2"
-              type="number"
-              className="p-2 border-2 border-gray-100 rounded-xl w-1/6 block mb-8 bg-gray-100"
-              value={email}
-              onChange={(e) => setEmail(e.target.value!)}
-              required
-            ></input>
-            <input
-              name="input3"
-              type="number"
-              className="p-2 border-2 border-gray-100 rounded-xl w-1/6 block mb-8 bg-gray-100"
-              value={email}
-              onChange={(e) => setEmail(e.target.value!)}
-              required
-            ></input>
-            <input
-              name="input4"
-              type="number"
-              className="p-2 border-2 border-gray-100 rounded-xl w-1/6 block mb-8 bg-gray-100"
-              value={email}
-              onChange={(e) => setEmail(e.target.value!)}
+              // className="p-2 border-2 border-gray-100 rounded-xl w-1/6 block mb-8 bg-gray-100"
+              className="p-2 border-2 border-gray-100 rounded-xl block mb-8 bg-gray-100"
+              value={otp}
+              onChange={(e) => setOTP(e.target.value!)}
               required
             ></input>
           </div>

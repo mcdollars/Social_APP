@@ -26,6 +26,7 @@ import { connect } from "../data/connect";
 import { RouteComponentProps } from "react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import { get } from "../util/store";
 
 interface OwnProps extends RouteComponentProps {}
 
@@ -43,28 +44,49 @@ const SignupPhoneNumber: React.FC<LoginProps> = ({
   setUsername: setUsernameAction,
   setEmail: setEmailAction,
 }) => {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState("");
   const [formSubmitted, setFormSubmitted] = useState(false);
-  const [usernameError, setUsernameError] = useState(false);
-  const [emailError, setEmailError] = useState(false);
-  const [passwordError, setPasswordError] = useState(false);
+  const [phoneError, setPhoneError] = useState(false);
 
-  const login = async (e: React.FormEvent) => {
+  const verify = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormSubmitted(true);
-    if (!email) {
-      setEmailError(true);
-    }
-    if (!password) {
-      setPasswordError(true);
+    if (!phone) {
+      setPhoneError(true);
     }
 
-    if (email && password) {
-      await setIsLoggedIn(true);
-      await setEmailAction(email);
-      history.push("/tabs/schedule", { direction: "none" });
+    if (phone) {
+      try {
+        const token = await get("token");
+        const response = await fetch(
+          `${process.env.REACT_APP_API}/auth/pre-signup`,
+          {
+            method: "POST",
+            body: JSON.stringify({ phone }),
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+              "x-access-token": token,
+            },
+          }
+        );
+
+        if (!response.ok) {
+          const message = await response.json();
+          alert(message.message);
+        } else {
+          const result = await response.json();
+          console.log(result)
+          // await setIsLoggedIn(true);
+          // await setEmailAction(email);
+          if (result) {
+            history.push("/signup-verify-number", { direction: "none", state: result });
+          }
+        }
+      } catch (err) {
+        alert(err);
+        console.log(err);
+      }
     }
   };
 
@@ -75,7 +97,7 @@ const SignupPhoneNumber: React.FC<LoginProps> = ({
           <IonButtons slot="start">
             <IonMenuButton></IonMenuButton>
           </IonButtons>
-          <IonTitle>Login</IonTitle>
+          <IonTitle>Signup</IonTitle>
         </IonToolbar>
       </IonHeader>
       <div className="flex flex-col h-screen">
@@ -83,26 +105,25 @@ const SignupPhoneNumber: React.FC<LoginProps> = ({
           <a href="/login">
             <FontAwesomeIcon icon={faChevronLeft} className="text-2xl" />
           </a>
-          <h1 className="text-3xl py-8">Verify phone number</h1>
+          <h1 className="text-3xl py-8">Enter your mobile number</h1>
           <p>
-            We sent a a 4-digit code to +1 (305) 1234 567. To validate your
-            account insert this code below.
+            We want to create a respectful community without bots and online abuse. Breach of our guidelines results in removal and reporting of your account.
           </p>
         </div>
 
-        <form noValidate onSubmit={login} className="px-4 mb-auto">
+        <form noValidate onSubmit={verify} className="px-4 mb-auto">
           <input
-            name="phone"
-            type="tel"
+            name="otp"
+            type="number"
             className="p-2 border-2 border-gray-100 rounded-xl w-full block mb-8"
-            value={email}
-            onChange={(e) => setEmail(e.target.value!)}
+            value={phone}
+            onChange={(e) => setPhone(e.target.value!)}
             required
           ></input>
 
-          {formSubmitted && emailError && (
+          {formSubmitted && phoneError && (
             <span className="text-red-400">
-              <p className="ion-padding-start">Phone Number is required</p>
+              <p className="ion-padding-start">Phone number is required</p>
             </span>
           )}
 
