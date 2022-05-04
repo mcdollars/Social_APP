@@ -84,14 +84,6 @@ const Login: React.FC<LoginProps> = ({
 
   return (
     <IonPage id="login-page">
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot="start">
-            <IonMenuButton></IonMenuButton>
-          </IonButtons>
-          <IonTitle>Login</IonTitle>
-        </IonToolbar>
-      </IonHeader>
       <div className="flex flex-col h-screen">
         <div>
           <img src="assets/img/logo.png" alt="Ionic logo" className="m-4" />
