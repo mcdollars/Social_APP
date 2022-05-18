@@ -4,5 +4,4 @@
     <string name="title_activity_main">ionic-react-conference-app</string>
     <string name="package_name">com.socialexpereince.app</string>
     <string name="custom_url_scheme">com.socialexpereince.app</string>
-    <string name="secure_client_id">108638255703-cr0cq71r0bqb0h1q40iggph6mal4k7tp.apps.googleusercontent.com</string>
 </resources>

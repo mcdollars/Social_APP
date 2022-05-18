@@ -1,13 +1,5 @@
 import React, { useState } from "react";
-import {
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonPage,
-  IonButtons,
-  IonMenuButton,
-  IonModal,
-} from "@ionic/react";
+import { IonPage, IonModal } from "@ionic/react";
 import "./Login.scss";
 import {
   setIsLoggedIn,
@@ -18,7 +10,10 @@ import { connect } from "../data/connect";
 import { RouteComponentProps } from "react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
-import { set } from "../util/store"
+import { set } from "../util/store";
+// import { GooglePlus } from '@ionic-native/google-plus'
+import { GoogleAuth } from "@codetrix-studio/capacitor-google-auth";
+import { Plugins } from "@capacitor/core";
 
 interface OwnProps extends RouteComponentProps {}
 
@@ -72,7 +67,7 @@ const Login: React.FC<LoginProps> = ({
           alert(message.message);
         } else {
           const result = await response.json();
-          set('token', result.token)
+          set("token", result.token);
           history.push("/login-phone-number", { direction: "none" });
         }
       } catch (err) {
@@ -82,6 +77,16 @@ const Login: React.FC<LoginProps> = ({
     }
   };
 
+  const handleGoogle = async () => {
+    const result = await Plugins.GoogleAuth.signIn();
+    console.log({ result });
+  };
+
+  React.useEffect(() => {
+    GoogleAuth.initialize();
+    console.log('Google Auth Init')
+  }, []);
+
   return (
     <IonPage id="login-page">
       <div className="flex flex-col h-screen">
@@ -89,6 +94,12 @@ const Login: React.FC<LoginProps> = ({
           <img src="assets/img/logo.png" alt="Ionic logo" className="m-4" />
           <h1 className="text-4xl px-4 py-8">Login</h1>
         </div>
+        <button
+          className="w-1/2 py-4 border-2 border-gray-400 bg-gray-200 mx-auto rounded-xl"
+          onClick={handleGoogle}
+        >
+          Google Sign in
+        </button>
 
         <form noValidate onSubmit={login} className="px-4 mb-auto">
           <label htmlFor="email" className="mb-2 block">
@@ -178,11 +189,17 @@ const Login: React.FC<LoginProps> = ({
             </p>
           </div>
           <div className="mb-auto">
-            <a href="/signup-phone-number" className="w-full my-8 bg-purple-600 text-white py-4 block rounded-xl font-bold">
+            <a
+              href="/signup-phone-number"
+              className="w-full my-8 bg-purple-600 text-white py-4 block rounded-xl font-bold"
+            >
               Sign up with phone number{" "}
             </a>
             <div>or</div>
-            <div className="w-full my-4 border-2 py-4 border-gray-300  rounded-xl">
+            <div
+              className="w-full my-4 border-2 py-4 border-gray-300  rounded-xl"
+              onClick={handleGoogle}
+            >
               Sign up with Google{" "}
             </div>
             <div className="w-full my-4 border-2 py-4 border-gray-300  rounded-xl">

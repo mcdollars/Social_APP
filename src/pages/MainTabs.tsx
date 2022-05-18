@@ -21,6 +21,7 @@ import {
   faUserGroup,
 } from "@fortawesome/free-solid-svg-icons";
 import './MainTabs.scss'
+import Profile from "./Profile";
 
 interface MainTabsProps {}
 
@@ -52,6 +53,7 @@ const MainTabs: React.FC<MainTabsProps> = () => {
         <Route path="/tabs/speakers/sessions/:id" component={SessionDetail} />
         <Route path="/tabs/map" render={() => <MapView />} exact={true} />
         <Route path="/tabs/about" render={() => <About />} exact={true} />
+        <Route path="/tabs/profile" render={() => <Profile />} exact={true} />
       </IonRouterOutlet>
       <IonTabBar slot="bottom" className="rounded-t-lg h-14 border-t-2 border-gray-300">
         <IonTabButton tab="schedule" href="/tabs/schedule" className="bg-white">
@@ -66,7 +68,7 @@ const MainTabs: React.FC<MainTabsProps> = () => {
         <IonTabButton tab="map" href="/tabs/map" className="bg-white">
           <FontAwesomeIcon icon={faUserGroup} size="2x" />
         </IonTabButton>
-        <IonTabButton tab="about" href="/tabs/about" className="bg-white">
+        <IonTabButton tab="profile" href="/tabs/profile" className="bg-white">
           <FontAwesomeIcon icon={faUserCircle} size="3x" />
         </IonTabButton>
       </IonTabBar>

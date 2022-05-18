@@ -52,7 +52,7 @@ import CompleteProfile from "./pages/CompleteProfile";
 import SetupInterest from "./pages/SetupInterest";
 import LoginPhoneNumber from "./pages/LoginPhoneNumber";
 
-import { createStore, get, set } from "./util/store";
+import { createStore } from "./util/store";
 
 const App: React.FC = () => {
   return (

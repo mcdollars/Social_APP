@@ -16,13 +16,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    packagingOptions {
-        exclude 'META-INF/DEPENDENCIES'
-        exclude 'META-INF/NOTICE'
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/NOTICE.txt'
-    }
 }
 
 repositories {
@@ -42,6 +35,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation project(':capacitor-cordova-android-plugins')
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 }
 
 apply from: 'capacitor.build.gradle'
