@@ -3,18 +3,9 @@ import {
   IonHeader,
   IonToolbar,
   IonTitle,
-  IonContent,
   IonPage,
   IonButtons,
   IonMenuButton,
-  IonRow,
-  IonCol,
-  IonButton,
-  IonList,
-  IonItem,
-  IonLabel,
-  IonInput,
-  IonText,
 } from "@ionic/react";
 import "./Login.scss";
 import {
@@ -43,25 +34,14 @@ const ResetPassword: React.FC<LoginProps> = ({
   setUsername: setUsernameAction,
   setEmail: setEmailAction,
 }) => {
-  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [formSubmitted, setFormSubmitted] = useState(false);
-  const [usernameError, setUsernameError] = useState(false);
-  const [emailError, setEmailError] = useState(false);
-  const [passwordError, setPasswordError] = useState(false);
 
   const login = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormSubmitted(true);
-    if (!email) {
-      setEmailError(true);
-    }
-    if (!password) {
-      setPasswordError(true);
-    }
 
-    if (email && password) {
+    if (formSubmitted && email) {
       await setIsLoggedIn(true);
       await setEmailAction(email);
       history.push("/tabs/schedule", { direction: "none" });

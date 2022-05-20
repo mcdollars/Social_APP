@@ -15,7 +15,7 @@ import "./Login.scss";
 import { setIsLoggedIn, setUsername } from "../data/user/user.actions";
 import { connect } from "../data/connect";
 import { RouteComponentProps } from "react-router";
-import { GooglePlus } from '@ionic-native/google-plus'
+// import { GooglePlus } from '@ionic-native/google-plus'
 
 interface OwnProps extends RouteComponentProps {}
 

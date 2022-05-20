@@ -8,9 +8,6 @@ import {
 } from "../data/user/user.actions";
 import { connect } from "../data/connect";
 import { RouteComponentProps, useLocation } from "react-router";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClose } from "@fortawesome/free-solid-svg-icons";
-import { set } from "../util/store";
 
 interface OwnProps extends RouteComponentProps {}
 
@@ -172,7 +169,7 @@ const CompleteProfile: React.FC<LoginProps> = ({
                   <button
                     type="button"
                     className={
-                      formData.gender == "female"
+                      formData.gender === "female"
                         ? "px-4 py-2 rounded-full bg-purple-600 text-white"
                         : "px-4 py-2 rounded-full bg-gray-200"
                     }
@@ -185,7 +182,7 @@ const CompleteProfile: React.FC<LoginProps> = ({
                   <button
                     type="button"
                     className={
-                      formData.gender == "male"
+                      formData.gender === "male"
                         ? "px-4 py-2 rounded-full bg-purple-600 text-white"
                         : "px-4 py-2 rounded-full bg-gray-200"
                     }
@@ -196,7 +193,7 @@ const CompleteProfile: React.FC<LoginProps> = ({
                   <button
                     type="button"
                     className={
-                      formData.gender == "unspecified"
+                      formData.gender === "unspecified"
                         ? "px-4 py-2 rounded-full bg-purple-600 text-white"
                         : "px-4 py-2 rounded-full bg-gray-200"
                     }

@@ -6,7 +6,6 @@ import {
   IonTabButton,
 } from "@ionic/react";
 import { Route, Redirect } from "react-router";
-import { calendar, location, informationCircle, people } from "ionicons/icons";
 import SchedulePage from "./SchedulePage";
 import SpeakerList from "./SpeakerList";
 import SpeakerDetail from "./SpeakerDetail";

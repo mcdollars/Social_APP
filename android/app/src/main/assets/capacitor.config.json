@@ -1,6 +1,6 @@
 {
 	"appId": "com.socialexpereince.app",
-	"appName": "ionic-react-conference-app",
+	"appName": "social-experience-app",
 	"bundledWebRuntime": false,
 	"npmClient": "npm",
 	"webDir": "build",

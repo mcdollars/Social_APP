@@ -86,7 +86,7 @@ const SignupVerify: React.FC<LoginProps> = ({
     if (otp.length === 4) {
       handleOTP(state.state.token, otp);
     }
-  }, [otp]);
+  }, [otp, history, state]);
 
   return (
     <IonPage id="login-page">

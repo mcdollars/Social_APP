@@ -9,7 +9,6 @@ import {
   IonModal,
 } from "@ionic/react";
 import "./About.scss";
-import { format, parseISO } from "date-fns";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faClose,
@@ -55,6 +54,7 @@ const Profile: React.FC<AboutProps> = () => {
 
           <div className="flex flex-col space-y-4 p-4">
             <div className="flex flex-row justify-between text-center">
+              {currentUser && <>current User</>}
               <div>Profile</div>
               <div>
                 <div className="font-bold text-xl">12</div>

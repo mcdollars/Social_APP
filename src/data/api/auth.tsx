@@ -1,7 +1,3 @@
-import { Plugins } from "@capacitor/core";
-
-const { Storage } = Plugins;
-
 export const fetcCurrenthUser = async () => {
   const response = await fetch(`${process.env.REACT_APP_API}/api/profile`, {
     method: "GET",
