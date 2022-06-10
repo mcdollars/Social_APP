@@ -1,0 +1,191 @@
+/* Start Variables */
+
+:root {
+    --main-color: #6659FF;
+    --text-main-color: #000229;
+    --secondary-color: #4A4C69;
+    --gray-color: #9CA5B0;
+    --lines-color: #EEEFF1;
+    --green-color: #2FC6A4;
+    --blue-color: #2BA7CA;
+    --blue2-color: #2D9CDB;
+    --pink-color: #E8769F;
+    --background-color: #F9F9F9;
+}
+
+/* End Variables */
+
+/* Start Global Rules */
+
+body {
+    font-family: 'Rubik', sans-serif;
+}
+
+.text-yellow-color {
+    color: #F2C94C;
+}
+
+.bg-main-color {
+    background-color: var(--main-color) !important;
+}
+
+.main-color {
+    color: var(--main-color) !important;
+}
+
+.text-main-color {
+    color: var(--text-main-color) !important;
+}
+
+.bg-text-main-color {
+    background-color: var(--text-main-color) !important;
+}
+
+.text-blue-color {
+    color: var(--blue-color);
+}
+
+.secondary-color {
+    color: var(--secondary-color) !important;
+}
+
+.bg-secondary-color {
+    background-color: var(--secondary-color) !important;
+}
+
+.bg-green-color {
+    background-color: var(--green-color) !important;
+}
+
+.text-color-green {
+    color: var(--green-color);
+}
+
+.text-blue2-color {
+    color: var(--blue2-color);
+}
+
+.text-color-blue {
+    color: var(--blue-color);
+}
+
+.bg-background-color {
+    background-color: var(--background-color) !important;
+}
+
+.text-gray-color {
+    color: var(--gray-color) !important;
+}
+
+.bg-gray-color {
+    background-color: var(--gray-color) !important;
+}
+
+.bg-lines-color {
+    background-color: var(--lines-color) !important;
+}
+
+/* End Global Rules */
+
+/* Start Onboarding */
+
+.content-onboarding .bottom-content .circle {
+    border-color: #EBECF8;
+}
+
+/* End Onboarding */
+
+/* Start Create Account */
+
+.content-create-account .line-holder-left {
+    background: linear-gradient(116.19deg, #FFFFFF 1.96%, #E8E9EA 84.63%);
+}
+
+.content-create-account .line-holder-right {
+    background: linear-gradient(116.19deg, #FFFFFF 1.96%, #E8E9EA 84.63%);
+    transform: matrix(-1, 0, 0, 1, 0, 0);
+}
+
+/* End Create Account */
+
+
+/* Start Login */
+
+.content-login input:not([type=submit]) {
+    border-color: var(--lines-color);
+}
+
+.content-login input:not([type=submit])::placeholder {
+    color: #9CA5B0;
+}
+
+/* End Login */
+
+/* Start Reset Passowrd */
+
+.content-reset-password .resend-holder .resend-button {
+    font-family: 'Poppins', sans-serif;
+    border-color: #B3ACFF;
+    color: #B3ACFF;
+}
+
+/* End Reset Passowrd */
+
+/* Start Verify Number */
+
+.content-verify-number .resend-holder .resend-button {
+    font-family: 'Poppins', sans-serif;
+    border-color: #B3ACFF;
+    color: #B3ACFF;
+}
+
+.content-verify-number-2 .resend-holder .resend-button {
+    font-family: 'Poppins', sans-serif;
+    border-color: var(--main-color);
+}
+
+.content-verify-number-3 .code-holder {
+    font-family: 'Poppins', sans-serif;
+}
+
+/* End Verify Number */
+
+/* Start Complete Profile */
+
+.content-complete-profile-1 .ch-box-item {
+    background-color: #EBEDF1;
+}
+
+.content-complete-profile-1 .agreed {
+    font-size: 13px;
+}
+
+/* End Complete Profile */
+
+/* Start Discover */
+
+.content-discover .item {
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+/* End Discover */
+
+/* Start Select Interests */
+
+.content-select-interests-1 .item {
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+/* End Select Interests */
+
+/* Start Select Interests */
+
+.content-home .home-icon {
+    border-top: 2px solid var(--main-color);
+}
+
+/* End Select Interests */
+/* Checkbox Accent Color */
+.accent-green {
+    accent-color: var(--green-color) !important;
+}
