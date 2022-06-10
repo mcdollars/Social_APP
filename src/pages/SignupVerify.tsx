@@ -44,7 +44,7 @@ const SignupVerify: React.FC<LoginProps> = ({
     if (otp && formSubmitted) {
       // await setIsLoggedIn(true);
       // await setEmailAction(email);
-      // history.push("/tabs/schedule", { direction: "none" });
+      // history.push("/tabs/home", { direction: "none" });
       console.log(location);
     }
   };

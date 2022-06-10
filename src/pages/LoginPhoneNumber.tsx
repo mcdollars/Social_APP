@@ -70,7 +70,7 @@ const SignupPhoneNumber: React.FC<LoginProps> = ({
           await setIsLoggedIn(true);
           // await setEmailAction(email);
           if (result) {
-            history.push("/tabs/schedule", { direction: "none" });
+            history.push("/tabs/home", { direction: "none" });
           }
         }
       } catch (err) {

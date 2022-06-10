@@ -43,7 +43,7 @@ const SessionDetail: React.FC<SessionDetailProps> = ({ session, addFavorite, rem
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
-            <IonBackButton defaultHref="/tabs/schedule"></IonBackButton>
+            <IonBackButton defaultHref="/tabs/home"></IonBackButton>
           </IonButtons>
           <IonButtons slot="end">
             <IonButton onClick={() => toggleFavorite()}>

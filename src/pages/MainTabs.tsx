@@ -6,7 +6,7 @@ import {
   IonTabButton,
 } from "@ionic/react";
 import { Route, Redirect } from "react-router";
-import SchedulePage from "./SchedulePage";
+import HomePage from "./HomePage";
 import SpeakerList from "./SpeakerList";
 import SpeakerDetail from "./SpeakerDetail";
 import SessionDetail from "./SessionDetail";
@@ -28,14 +28,14 @@ const MainTabs: React.FC<MainTabsProps> = () => {
   return (
     <IonTabs>
       <IonRouterOutlet>
-        <Redirect exact path="/tabs" to="/tabs/schedule" />
+        <Redirect exact path="/tabs" to="/tabs/home" />
         {/*
           Using the render method prop cuts down the number of renders your components will have due to route changes.
           Use the component prop when your component depends on the RouterComponentProps passed in automatically.
         */}
         <Route
-          path="/tabs/schedule"
-          render={() => <SchedulePage />}
+          path="/tabs/home"
+          render={() => <HomePage />}
           exact={true}
         />
         <Route
@@ -48,14 +48,14 @@ const MainTabs: React.FC<MainTabsProps> = () => {
           component={SpeakerDetail}
           exact={true}
         />
-        <Route path="/tabs/schedule/:id" component={SessionDetail} />
+        {/* <Route path="/tabs/home/:id" component={SessionDetail} /> */}
         <Route path="/tabs/speakers/sessions/:id" component={SessionDetail} />
         <Route path="/tabs/map" render={() => <MapView />} exact={true} />
         <Route path="/tabs/about" render={() => <About />} exact={true} />
         <Route path="/tabs/profile" render={() => <Profile />} exact={true} />
       </IonRouterOutlet>
       <IonTabBar slot="bottom" className="rounded-t-lg h-14 border-t-2 border-gray-300">
-        <IonTabButton tab="schedule" href="/tabs/schedule" className="bg-white">
+        <IonTabButton tab="home" href="/tabs/home" className="bg-white">
           <FontAwesomeIcon icon={faHouse} size="2x" />
         </IonTabButton>
         <IonTabButton tab="speakers" href="/tabs/speakers" className="bg-white">

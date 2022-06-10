@@ -50,7 +50,7 @@ const Login: React.FC<LoginProps> = ({
     if (username && password) {
       await setIsLoggedIn(true);
       await setUsernameAction(username);
-      history.push("/tabs/schedule", { direction: "none" });
+      history.push("/tabs/home", { direction: "none" });
     }
   };
 

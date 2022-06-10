@@ -59,7 +59,7 @@ const SetupInterest: React.FC<LoginProps> = ({
 
     if (formSubmitted) {
       // await setEmailAction(email);
-      // history.push("/tabs/schedule", { direction: "none" });
+      // history.push("/tabs/home", { direction: "none" });
       try {
         const response = await fetch(
           `${process.env.REACT_APP_API}/api/profile`,
@@ -81,7 +81,7 @@ const SetupInterest: React.FC<LoginProps> = ({
           const result = await response.json();
           set("token", result.token);
           await setIsLoggedIn(true);
-          history.push("/tabs/schedule", {
+          history.push("/tabs/home", {
             direction: "none",
             state: result,
           });
@@ -104,7 +104,7 @@ const SetupInterest: React.FC<LoginProps> = ({
               <span
                 className="text-xl mb-2 text-violet-800"
                 onClick={() =>
-                  history.push("/tabs/schedules", {
+                  history.push("/tabs/homes", {
                     direction: "none",
                   })
                 }
