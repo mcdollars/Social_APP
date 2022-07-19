@@ -51,6 +51,11 @@ import SetupInterest from "./pages/SetupInterest";
 import LoginPhoneNumber from "./pages/LoginPhoneNumber";
 
 import { createStore } from "./util/store";
+import ViewAlbum from "./pages/ViewAlbum";
+import Map from "./pages/Map";
+import MapAlbum from "./pages/MapAlbum";
+import MapAlbumPhoto from "./pages/MapAlbumPhoto";
+import Tips from "./pages/Tips";
 
 const App: React.FC = () => {
   return (
@@ -121,6 +126,11 @@ const IonicApp: React.FC<IonicAppProps> = ({
             <Route path="/signup-interest" component={SetupInterest} />
             <Route path="/support" component={Support} />
             <Route path="/tutorial" component={Tutorial} />
+            <Route path="/view-album" component={ViewAlbum} />
+            <Route path="/map" component={Map} />
+            <Route path="/map-album" component={MapAlbum} />
+            <Route path="/map-album-photo" component={MapAlbumPhoto} />
+            <Route path="/tips" component={Tips} />
             <Route
               path="/logout"
               render={() => {
