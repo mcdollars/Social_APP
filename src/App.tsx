@@ -56,6 +56,9 @@ import Map from "./pages/Map";
 import MapAlbum from "./pages/MapAlbum";
 import MapAlbumPhoto from "./pages/MapAlbumPhoto";
 import Tips from "./pages/Tips";
+import SelectCategory from "./pages/SelectCategory";
+import Discovery from "./pages/Discovery";
+import CategorySearch from "./pages/CategorySearch";
 
 const App: React.FC = () => {
   return (
@@ -131,6 +134,9 @@ const IonicApp: React.FC<IonicAppProps> = ({
             <Route path="/map-album" component={MapAlbum} />
             <Route path="/map-album-photo" component={MapAlbumPhoto} />
             <Route path="/tips" component={Tips} />
+            <Route path="/select-category" component={SelectCategory} />
+            <Route path="/discovery/:type" component={Discovery} />
+            <Route path="/category-search" component={CategorySearch} />
             <Route
               path="/logout"
               render={() => {
