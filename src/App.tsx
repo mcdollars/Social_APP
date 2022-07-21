@@ -70,6 +70,20 @@ import GroupExperience from "./pages/GroupExperience";
 import GroupNoExperience from "./pages/GroupNoExperience";
 import GroupExperienceList from "./pages/GroupExperienceList";
 import PlanExperience from "./pages/PlanExperience";
+import CreatePlanExperience from "./pages/CreatePlanExperience";
+import AdvanceSettings from "./pages/AdvanceSettings";
+import ExperienceMap from "./pages/ExperienceMap";
+import SearchPlaces from "./pages/SearchPlaces";
+import ExperienceDetails from "./pages/ExperienceDetails";
+import ExperienceSuggestions from "./pages/ExperienceSuggestions";
+import ExperienceSaved from "./pages/ExperienceSaved";
+import Experiences from "./pages/Experiences";
+import CreateExperience from "./pages/CreateExperience";
+import CreateExperienceMap from "./pages/CreateExperienceMap";
+import CreateExperienceActivity from "./pages/CreateExperienceActivity";
+import CloseCreateExperience from "./pages/CloseCreateExperience";
+import AddQuickTips from "./pages/AddQuickTips";
+import Portfolio from "./pages/Portfolio";
 
 const App: React.FC = () => {
   return (
@@ -165,6 +179,35 @@ const IonicApp: React.FC<IonicAppProps> = ({
               component={GroupExperienceList}
             />
             <Route path="/plan-experience" component={PlanExperience} />
+            <Route
+              path="/create-plan-experience"
+              component={CreatePlanExperience}
+            />
+            <Route path="/advance-settings" component={AdvanceSettings} />
+            <Route path="/experience-map" component={ExperienceMap} />
+            <Route path="/search-places/:type" component={SearchPlaces} />
+            <Route path="/experience-details" component={ExperienceDetails} />
+            <Route
+              path="/experience-suggestions"
+              component={ExperienceSuggestions}
+            />
+            <Route path="/experience-saved" component={ExperienceSaved} />
+            <Route path="/experiences" component={Experiences} />
+            <Route path="/create-experiences" component={CreateExperience} />
+            <Route
+              path="/create-experiences-map"
+              component={CreateExperienceMap}
+            />
+            <Route
+              path="/create-experiences-activity"
+              component={CreateExperienceActivity}
+            />
+            <Route
+              path="/close-create-experiences"
+              component={CloseCreateExperience}
+            />
+            <Route path="/add-quick-tips" component={AddQuickTips} />
+            <Route path="/portfolio" component={Portfolio} />
             <Route
               path="/logout"
               render={() => {
