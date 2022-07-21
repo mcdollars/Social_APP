@@ -59,6 +59,17 @@ import Tips from "./pages/Tips";
 import SelectCategory from "./pages/SelectCategory";
 import Discovery from "./pages/Discovery";
 import CategorySearch from "./pages/CategorySearch";
+import Groups from "./pages/Groups";
+import MyGroups from "./pages/MyGroups";
+import CreateGroup from "./pages/CreateGroup";
+import InviteParticipants from "./pages/InviteParticipants";
+import GroupDiscover from "./pages/GroupDiscover";
+import GroupFeed from "./pages/GroupFeed";
+import GroupMapExperience from "./pages/GroupMapExperience";
+import GroupExperience from "./pages/GroupExperience";
+import GroupNoExperience from "./pages/GroupNoExperience";
+import GroupExperienceList from "./pages/GroupExperienceList";
+import PlanExperience from "./pages/PlanExperience";
 
 const App: React.FC = () => {
   return (
@@ -137,6 +148,23 @@ const IonicApp: React.FC<IonicAppProps> = ({
             <Route path="/select-category" component={SelectCategory} />
             <Route path="/discovery/:type" component={Discovery} />
             <Route path="/category-search" component={CategorySearch} />
+            <Route path="/groups" component={Groups} />
+            <Route path="/my-groups" component={MyGroups} />
+            <Route path="/groups-create" component={CreateGroup} />
+            <Route path="/invite-participant" component={InviteParticipants} />
+            <Route
+              path="/group-map-experience"
+              component={GroupMapExperience}
+            />
+            <Route path="/group-discover" component={GroupDiscover} />
+            <Route path="/group-feed" component={GroupFeed} />
+            <Route path="/group-experience" component={GroupExperience} />
+            <Route path="/group-no-experience" component={GroupNoExperience} />
+            <Route
+              path="/group-experience-list"
+              component={GroupExperienceList}
+            />
+            <Route path="/plan-experience" component={PlanExperience} />
             <Route
               path="/logout"
               render={() => {
