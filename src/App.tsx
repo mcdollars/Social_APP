@@ -84,6 +84,12 @@ import CreateExperienceActivity from "./pages/CreateExperienceActivity";
 import CloseCreateExperience from "./pages/CloseCreateExperience";
 import AddQuickTips from "./pages/AddQuickTips";
 import Portfolio from "./pages/Portfolio";
+import Settings from "./pages/Settings";
+import MyExperience from "./pages/MyExperience";
+import UserProfile from "./pages/UserProfile";
+import UserExperience from "./pages/UserExperience";
+import Messages from "./pages/Messages";
+import Notifications from "./pages/Notifications";
 
 const App: React.FC = () => {
   return (
@@ -208,6 +214,12 @@ const IonicApp: React.FC<IonicAppProps> = ({
             />
             <Route path="/add-quick-tips" component={AddQuickTips} />
             <Route path="/portfolio" component={Portfolio} />
+            <Route path="/settings" component={Settings} />
+            <Route path="/my-experiences" component={MyExperience} />
+            <Route path="/user-profile" component={UserProfile} />
+            <Route path="/user-experience" component={UserExperience} />
+            <Route path="/notifications" component={Notifications} />
+            <Route path="/messages" component={Messages} />
             <Route
               path="/logout"
               render={() => {
