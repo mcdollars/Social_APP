@@ -30,8 +30,8 @@ const SetupInterest: React.FC<LoginProps> = ({
   setUsername: setUsernameAction,
   setEmail: setEmailAction,
 }) => {
-  const location = useLocation();
-  const state: any = location.state;
+  // const location = useLocation();
+  // const state: any = location.state;
 
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [selectedInterest, setSelectedInterest] = useState<Interest[]>([]);
@@ -69,7 +69,7 @@ const SetupInterest: React.FC<LoginProps> = ({
             headers: {
               "Content-Type": "application/json",
               Accept: "application/json",
-              "x-access-token": state.state.token,
+              // "x-access-token": state.state.token,
             },
           }
         );

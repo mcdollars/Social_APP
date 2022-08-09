@@ -1,5 +1,5 @@
 {
-  "appId": "com.socialexpereince.app",
+  "appId": "com.socialexperience.app",
   "appName": "social-experience-app",
   "bundledWebRuntime": false,
   "npmClient": "npm",
@@ -8,7 +8,7 @@
   "plugins": {
     "GoogleAuth": {
       "scopes": ["profile", "email"],
-      "serverClientId": "665268782433-23aa2cv3n4lv48b9jn4eqf51kk598q24.apps.googleusercontent.com",
+      "serverClientId": "290121378528-icshdn5ur98pils9mtht7jc6b1k9kb3r.apps.googleusercontent.com",
       "forceCodeForRefreshToken": true
     }
   }

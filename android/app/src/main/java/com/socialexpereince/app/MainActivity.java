@@ -1,4 +1,4 @@
-package com.socialexpereince.app;
+package com.socialexperience.app;
 
 import android.os.Bundle;
 

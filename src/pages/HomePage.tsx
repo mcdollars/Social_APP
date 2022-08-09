@@ -75,7 +75,7 @@ const HomePage: React.FC<HomePageProps> = ({
                     <span className="font-medium">Thailand Experience</span>
                     <br />
                     <span className="text-gray-color text-xs">
-                      April 20, 2021
+                      April 20, 2022
                     </span>
                   </div>
                   <div className="1/6">

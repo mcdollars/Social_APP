@@ -51,7 +51,7 @@ const CompleteProfile: React.FC<LoginProps> = ({
   const signup = async (e: React.FormEvent) => {
     e.preventDefault();
     const data = new FormData(e.target as any);
-    const formProps = Object.fromEntries(data);
+    const formProps : any = Object.fromEntries(data);
 
     setFormSubmitted(true);
 
@@ -61,12 +61,11 @@ const CompleteProfile: React.FC<LoginProps> = ({
           `${process.env.REACT_APP_API}/api/profile`,
           {
             method: "PUT",
-            body: JSON.stringify({ ...formProps }),
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
-              "x-access-token": state.state.token,
-            },
+            body: data
+            // headers: {
+            //   // Accept: "application/json",
+            //   // "x-access-token": state.state.token,
+            // },
           }
         );
 
@@ -90,7 +89,7 @@ const CompleteProfile: React.FC<LoginProps> = ({
   return (
     <IonPage id="login-page">
       <IonContent>
-        <form noValidate onSubmit={signup} className="flex flex-col h-screen">
+        <form noValidate onSubmit={signup} className="flex flex-col h-screen" encType="multipart/form-data">
           <div className="container p-4 mb-auto">
             <div className="flex flex-row justify-between mb-2">
               <h6 className="text-2xl inline">Complete Profile</h6>
@@ -120,7 +119,7 @@ const CompleteProfile: React.FC<LoginProps> = ({
               >
                 Upload
               </label>
-              <input className="hidden" id="upload-profile" type="file" />
+              <input className="hidden" id="upload-profile" type="file" name="avatar" />
             </div>
             <div className="flex flex-row justify-between my-6">
               <div className="mr-2">

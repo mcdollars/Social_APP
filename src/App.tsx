@@ -153,11 +153,11 @@ const IonicApp: React.FC<IonicAppProps> = ({
             <Route path="/signup" component={Signup} />
             <Route path="/signup-phone-number" component={SignupPhoneNumber} />
             <Route path="/signup-verify-number" component={SignupVerify} />
+            <Route path="/signup-interest" component={SetupInterest} />
             <Route
               path="/signup-complete-profile"
               component={CompleteProfile}
             />
-            <Route path="/signup-interest" component={SetupInterest} />
             <Route path="/support" component={Support} />
             <Route path="/tutorial" component={Tutorial} />
             <Route path="/view-album" component={ViewAlbum} />

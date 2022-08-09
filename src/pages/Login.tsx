@@ -78,7 +78,7 @@ const Login: React.FC<LoginProps> = ({
   };
 
   const handleGoogle = async () => {
-    const result = await Plugins.GoogleAuth.signIn();
+    const result = await GoogleAuth.signIn();
     console.log({ result });
   };
 
