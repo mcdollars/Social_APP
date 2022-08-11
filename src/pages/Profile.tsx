@@ -17,6 +17,7 @@ import {
   faCog,
 } from "@fortawesome/free-solid-svg-icons";
 import { fetcCurrenthUser } from "../data/api/auth";
+import { GoogleAuth } from "@codetrix-studio/capacitor-google-auth";
 
 interface AboutProps {}
 
@@ -38,6 +39,20 @@ const Profile: React.FC<AboutProps> = () => {
     fetch();
   }, [setCurrentUser]);
 
+  const handleGoogle = async () => {
+    try {
+      const result = await GoogleAuth.signIn();
+      console.log({ result });
+    } catch (e) {
+      console.log({ error: e });
+    }
+  };
+
+  React.useEffect(() => {
+    // GoogleAuth.initialize();
+    // console.log('Google Auth Init')
+  }, []);
+
   return (
     <>
       <IonPage>
@@ -55,7 +70,8 @@ const Profile: React.FC<AboutProps> = () => {
           <div className="flex flex-col space-y-4 p-4">
             <div className="flex flex-row justify-between text-center">
               {currentUser && <>current User</>}
-              <div>Profile</div>
+              <div onClick={handleGoogle}>Login Google </div>
+              <div>Profile </div>
               <div>
                 <div className="font-bold text-xl">12</div>
                 Countries

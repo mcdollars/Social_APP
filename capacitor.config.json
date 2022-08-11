@@ -8,8 +8,9 @@
   "plugins": {
     "GoogleAuth": {
       "scopes": ["profile", "email"],
-      "serverClientId": "290121378528-icshdn5ur98pils9mtht7jc6b1k9kb3r.apps.googleusercontent.com",
-      "forceCodeForRefreshToken": true
+      "serverClientId": "290121378528-khucsr4vs85u83c2reco77m3o9kkb629.apps.googleusercontent.com",
+      "forceCodeForRefreshToken": true,
+      "grantOfflineAccess": true
     }
   }
 }
