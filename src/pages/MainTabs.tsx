@@ -21,6 +21,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import './MainTabs.scss'
 import Profile from "./Profile";
+import GroupNoExperience from "./GroupNoExperience";
 
 interface MainTabsProps {}
 
@@ -50,7 +51,7 @@ const MainTabs: React.FC<MainTabsProps> = () => {
         />
         {/* <Route path="/tabs/home/:id" component={SessionDetail} /> */}
         <Route path="/tabs/speakers/sessions/:id" component={SessionDetail} />
-        <Route path="/tabs/map" render={() => <MapView />} exact={true} />
+        <Route path="/tabs/experience" render={() => <GroupNoExperience />} exact={true} />
         <Route path="/tabs/about" render={() => <About />} exact={true} />
         <Route path="/tabs/profile" render={() => <Profile />} exact={true} />
       </IonRouterOutlet>
@@ -61,10 +62,10 @@ const MainTabs: React.FC<MainTabsProps> = () => {
         <IonTabButton tab="speakers" href="/tabs/speakers" className="bg-white">
           <FontAwesomeIcon icon={faMagnifyingGlass} size="2x" />
         </IonTabButton>
-        <IonTabButton tab="map" href="/tabs/map" className="bg-white">
+        <IonTabButton tab="map" href="/tabs/experience" className="bg-white">
           <img src="/assets/img/logo-menu.png" alt="menu-logo" />
         </IonTabButton>
-        <IonTabButton tab="map" href="/tabs/map" className="bg-white">
+        <IonTabButton tab="map" href="/tabs/experience" className="bg-white">
           <FontAwesomeIcon icon={faUserGroup} size="2x" />
         </IonTabButton>
         <IonTabButton tab="profile" href="/tabs/profile" className="bg-white">

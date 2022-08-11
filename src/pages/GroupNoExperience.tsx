@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import {
   IonHeader,
   IonToolbar,
@@ -10,12 +10,16 @@ import {
   IonGrid,
   IonRow,
   IonCol,
+  IonModal,
+  IonList,
+  IonItem,
 } from "@ionic/react";
 import SpeakerItem from "../components/SpeakerItem";
 import { Speaker } from "../models/Speaker";
 import { Session } from "../models/Schedule";
 import { connect } from "../data/connect";
 import * as selectors from "../data/selectors";
+import CreateExperience from "./CreateExperience";
 
 interface OwnProps {}
 
@@ -29,6 +33,10 @@ interface DispatchProps {}
 interface GroupsProps extends OwnProps, StateProps, DispatchProps {}
 
 const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
+  const [openExperience, setOpenExperience] = useState(false);
+  const modal = useRef<HTMLIonModalElement>(null);
+  const experienceModal = useRef<HTMLIonModalElement>(null);
+
   return (
     <IonPage id="speaker-list">
       <IonContent>
@@ -56,7 +64,10 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
                 just plan your future experience
               </div>
               <div>
-                <button className="bg-main-color text-white rounded-lg mt-3 mx-5 py-2 px-20 text-sm flex items-center justify-center">
+                <button
+                  className="bg-main-color text-white rounded-lg mt-3 mx-5 py-2 px-20 text-sm flex items-center justify-center"
+                  id="open-modal"
+                >
                   <img
                     src="/assets/images/Groups/PlusCircle.png"
                     alt=""
@@ -66,60 +77,37 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
                 </button>
               </div>
             </div>
-            <div className="w-full fixed bottom-0 left-0 shadow-md rounded-t-xl bg-white">
-              <div className="flex items-center">
-                <div className="w-1/5 relative pb-6 pt-4">
-                  <div className="">
-                    <img
-                      src="assets/images/discover/Home.png"
-                      className="mx-auto"
-                      alt=""
-                    />
-                  </div>
-                </div>
-
-                <div className="w-1/5 relative pb-6 pt-4">
-                  <div className="">
-                    <img
-                      src="assets/images/home/search-icon.png"
-                      alt=""
-                      className="mx-auto"
-                    />
-                  </div>
-                </div>
-                <div className="w-1/5 relative pb-6 pt-4">
-                  <div className="item-se">
-                    <img
-                      src="assets/images/home/home-logo.png"
-                      alt=""
-                      className="mx-auto"
-                    />
-                  </div>
-                  <div className="absolute bg-main-color h-1 w-12 rounded-full top-0 left-0 translate-x-1/3"></div>
-                </div>
-
-                <div className="w-1/5 relative pb-6 pt-4">
-                  <div className="">
-                    <img
-                      src="assets/images/Groups/Users.png"
-                      alt=""
-                      className="mx-auto"
-                    />
-                  </div>
-                </div>
-                <div className="w-1/5 relative pb-6 pt-4">
-                  <div className="">
-                    <img
-                      src="assets/images/home/small-user-pic.png"
-                      alt=""
-                      className="mx-auto"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
+        <IonModal
+          ref={modal}
+          trigger="open-modal"
+          initialBreakpoint={0.25}
+          breakpoints={[0, 0.25, 0.5, 0.75]}
+        >
+          <IonContent>
+            <IonList>
+              <IonItem>Add</IonItem>
+              <IonItem
+                id="open-create-experience-modal"
+                onClick={() => {
+                  modal.current?.dismiss();
+
+                  setTimeout(() => {
+                    setOpenExperience(true);
+                  }, 800);
+                }}
+              >
+                New Experience
+              </IonItem>
+              <IonItem>Upload from Archive</IonItem>
+              <IonItem>Plan Experiences</IonItem>
+            </IonList>
+          </IonContent>
+        </IonModal>
+        <IonModal isOpen={openExperience}>
+          <CreateExperience setOpen={setOpenExperience} />
+        </IonModal>
       </IonContent>
     </IonPage>
   );
