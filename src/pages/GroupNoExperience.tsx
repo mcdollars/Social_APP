@@ -13,6 +13,7 @@ import {
   IonModal,
   IonList,
   IonItem,
+  IonButton,
 } from "@ionic/react";
 import SpeakerItem from "../components/SpeakerItem";
 import { Speaker } from "../models/Speaker";

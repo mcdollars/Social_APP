@@ -25,6 +25,8 @@ import "@ionic/react/css/display.css";
 import "./theme/variables.css";
 import "./theme/tailwind.css";
 
+import "leaflet/dist/leaflet.css";
+
 import MainTabs from "./pages/MainTabs";
 import { connect } from "./data/connect";
 import { AppContextProvider } from "./data/AppContext";
@@ -90,6 +92,7 @@ import UserProfile from "./pages/UserProfile";
 import UserExperience from "./pages/UserExperience";
 import Messages from "./pages/Messages";
 import Notifications from "./pages/Notifications";
+import ExperienceMapMostPopular from "./pages/ExperienceMapMostPopular";
 
 const App: React.FC = () => {
   return (
@@ -133,7 +136,7 @@ const IonicApp: React.FC<IonicAppProps> = ({
   }, []);
 
   return schedule.groups.length === 0 ? (
-    <div></div>
+    <div>test</div>
   ) : (
     <IonApp className={`${darkMode ? "dark-theme" : ""}`}>
       <IonReactRouter>
@@ -201,8 +204,12 @@ const IonicApp: React.FC<IonicAppProps> = ({
             <Route path="/experiences" component={Experiences} />
             <Route path="/create-experiences" component={CreateExperience} />
             <Route
+              path="/popular-experiences-map"
+              component={ExperienceMapMostPopular} exact
+            />
+            <Route
               path="/create-experiences-map"
-              component={CreateExperienceMap}
+              component={CreateExperienceMap} exact
             />
             <Route
               path="/create-experiences-activity"
