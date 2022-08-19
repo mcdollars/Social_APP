@@ -10,6 +10,7 @@ import {
   IonGrid,
   IonRow,
   IonCol,
+  useIonRouter,
 } from "@ionic/react";
 import SpeakerItem from "../components/SpeakerItem";
 import { Speaker } from "../models/Speaker";
@@ -17,6 +18,7 @@ import { Session } from "../models/Schedule";
 import { connect } from "../data/connect";
 import * as selectors from "../data/selectors";
 import { useState } from "react";
+import { Redirect, useHistory } from "react-router";
 
 interface OwnProps {
   setOpen: any;
@@ -33,22 +35,26 @@ interface GroupsProps extends OwnProps, StateProps, DispatchProps {}
 
 const Groups: React.FC<GroupsProps> = ({ setOpen }) => {
   const [form, setForm] = useState({ place: "", experience: "" });
+  const router = useIonRouter();
 
   const handleExperienceSubmit = async (event: any) => {
     event.preventDefault();
     try {
-      const result = await fetch(
-        `${process.env.REACT_APP_API}/api/experience`,
-        {
-          method: "POST",
-          body: JSON.stringify({ ...form }),
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-        }
-      );
-      console.log({ result });
+      // const resp = await fetch(`${process.env.REACT_APP_API}/api/experience`, {
+      //   method: "POST",
+      //   body: JSON.stringify({ ...form }),
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     Accept: "application/json",
+      //   },
+      // });
+
+      // const result = await resp.json();
+      // console.log({ result });
+      setOpen(false);
+      setTimeout(() => {
+        router.push("/create-experiences-map", "forward", "push");
+      }, 800);
     } catch (err) {
       console.log({ err });
     }
