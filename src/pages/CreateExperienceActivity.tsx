@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   IonHeader,
   IonToolbar,
@@ -10,12 +10,14 @@ import {
   IonGrid,
   IonRow,
   IonCol,
+  useIonRouter,
 } from "@ionic/react";
 import SpeakerItem from "../components/SpeakerItem";
 import { Speaker } from "../models/Speaker";
 import { Session } from "../models/Schedule";
 import { connect } from "../data/connect";
 import * as selectors from "../data/selectors";
+import { Storage } from "@capacitor/storage";
 
 interface OwnProps {}
 
@@ -29,6 +31,24 @@ interface DispatchProps {}
 interface GroupsProps extends OwnProps, StateProps, DispatchProps {}
 
 const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
+  const PHOTO_STORAGE = "photos";
+  const router = useIonRouter();
+  const [photo, setPhoto] = useState<any>();
+
+  const goBack = () => {
+    router.push("/create-experiences-map", "root", "replace");
+  };
+
+  useEffect(() => {
+    const fetchImage = async () => {
+      const photos: any = await Storage.get({ key: PHOTO_STORAGE });
+      setPhoto(JSON.parse(photos.value)[0].webviewPath);
+      console.log({ photo })
+    };
+
+    fetchImage().catch(console.error);
+  }, [photo, setPhoto]);
+
   return (
     <IonPage id="speaker-list">
       <IonContent>
@@ -36,16 +56,15 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
           <div className="container experience-settings">
             <div className="pt-4 px-2 pb-2 rounded-b-md shadow-md">
               <div className="flex justify-between items-center">
-                <div className="">
+                <div className="" onClick={goBack}>
                   <img src="assets/images/66/close.png" alt="" />
                 </div>
                 <span className="text-center">Add Activity</span>
-                <a
+                <span
                   className="text-xs bg-main-color text-white px-4 py-1 rounded-full"
-                  href="#"
                 >
                   Next
-                </a>
+                </span>
               </div>
             </div>
             <div className="text-sm mt-5 px-3">
@@ -55,15 +74,14 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
                 </div>
                 <div>
                   <p className="font-medium">Jade Coleman</p>
-                  <a
+                  <span
                     className="flex items-center border border-slate-200 rounded-full px-2 py-0.5 mt-0.5"
-                    href="#"
                   >
                     <span className="text-xs text-gray-color mr-1">
                       Thai Vacation
                     </span>
                     <img src="assets/images/66/Path.png" alt="" />
-                  </a>
+                  </span>
                 </div>
               </div>
             </div>
@@ -81,16 +99,16 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
                 <div className="relative">
                   <img
                     className="w-full"
-                    src="assets/images/66/new stoty@2x.png"
+                    src={photo}
                     alt=""
                   />
-                  <a href="#">
+                  <span>
                     <img
                       className="absolute top-3 right-3 w-5"
                       src="assets/images/57/delete.png"
                       alt=""
                     />
-                  </a>
+                  </span>
                   <a
                     style={{ backgroundColor: "rgba(0, 0, 0, 0.384)" }}
                     href="#"

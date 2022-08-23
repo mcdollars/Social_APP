@@ -143,7 +143,9 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
     const newPhotos = [savedFileImage, ...photos];
     setPhotos(newPhotos);
     Storage.set({ key: PHOTO_STORAGE, value: JSON.stringify(newPhotos) });
-    console.log({ photo, newPhoto: JSON.stringify(newPhotos) });
+    setTimeout(() => {
+      router.push("/create-experiences-activity", "root", "pop");
+    }, 800);
   };
 
   const loadMap = () => {
