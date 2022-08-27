@@ -160,6 +160,24 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
       attribution:
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     }).addTo(leafletMap);
+
+    let myIcon = L.icon({
+      iconUrl: "assets/images/location-pin.png",
+      iconSize: [40, 40],
+    });
+
+    let marker = new L.Marker([lat, lng], {
+      icon: myIcon,
+      draggable: true,
+      title: "My Experience",
+      interactive: true,
+    });
+
+    marker.addTo(leafletMap);
+
+    marker.on("move", (data) => {
+      console.log({ data });
+    });
   };
 
   React.useEffect(() => {

@@ -136,7 +136,7 @@ const IonicApp: React.FC<IonicAppProps> = ({
   }, []);
 
   return schedule.groups.length === 0 ? (
-    <div>test</div>
+    <div></div>
   ) : (
     <IonApp className={`${darkMode ? "dark-theme" : ""}`}>
       <IonReactRouter>
