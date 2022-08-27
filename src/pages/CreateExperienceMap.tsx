@@ -38,10 +38,11 @@ import {
   Photo,
 } from "@capacitor/camera";
 import { Filesystem, Directory } from "@capacitor/filesystem";
-import { Storage } from "@capacitor/storage";
 import { Capacitor } from "@capacitor/core";
+import { Storage } from "@capacitor/storage";
 
 const PHOTO_STORAGE = "photos";
+const MY_EXPERIENCE = "MYEXPERIENCE";
 
 interface OwnProps {}
 
@@ -68,6 +69,7 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
   const router = useIonRouter();
   const [openOption, setOptionOption] = useState(false);
   const modal = useRef<HTMLIonModalElement>(null);
+  const [markerPosition, setMarkerPosition] = useState<any>();
 
   const goBack = () => {
     if (router.canGoBack()) {
@@ -115,15 +117,11 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
     });
 
     if (isPlatform("hybrid")) {
-      // Display the new image by rewriting the 'file://' path to HTTP
-      // Details: https://ionicframework.com/docs/building/webview#file-protocol
       return {
         filepath: savedFile.uri,
         webviewPath: Capacitor.convertFileSrc(savedFile.uri),
       };
     } else {
-      // Use webPath to display the new image instead of base64 since it's
-      // already loaded into memory
       return {
         filepath: fileName,
         webviewPath: photo.webPath,
@@ -142,46 +140,90 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
     const savedFileImage = await savePicture(photo, fileName);
     const newPhotos = [savedFileImage, ...photos];
     setPhotos(newPhotos);
+
     Storage.set({ key: PHOTO_STORAGE, value: JSON.stringify(newPhotos) });
+
+    let myExperience: any = await Storage.get({ key: MY_EXPERIENCE });
+    let val: any = JSON.parse(myExperience.value);
+
+    val.photos.push(...newPhotos);
+
+    Storage.set({
+      key: MY_EXPERIENCE,
+      value: JSON.stringify({ ...val, markerPosition }),
+    });
+
     setTimeout(() => {
       router.push("/create-experiences-activity", "root", "pop");
     }, 800);
   };
 
-  const loadMap = () => {
-    leafletMap = new L.Map("map");
-    leafletMap.on("load", () => {
-      setTimeout(() => {
-        leafletMap.invalidateSize();
-      }, 10);
-    });
-    leafletMap.setView([lat, lng], zoom);
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-    }).addTo(leafletMap);
-
-    let myIcon = L.icon({
-      iconUrl: "assets/images/location-pin.png",
-      iconSize: [40, 40],
-    });
-
-    let marker = new L.Marker([lat, lng], {
-      icon: myIcon,
-      draggable: true,
-      title: "My Experience",
-      interactive: true,
-    });
-
-    marker.addTo(leafletMap);
-
-    marker.on("move", (data) => {
-      console.log({ data });
-    });
-  };
-
   React.useEffect(() => {
-    loadMap();
+    const loadMap = async () => {
+      leafletMap = new L.Map("map");
+      leafletMap.on("load", () => {
+        setTimeout(() => {
+          leafletMap.invalidateSize();
+        }, 10);
+      });
+
+      leafletMap.setView([lat, lng], zoom);
+      let myIcon = L.icon({
+        iconUrl: "assets/images/location-pin.png",
+        iconSize: [40, 40],
+      });
+
+      let marker = new L.Marker([lat, lng], {
+        icon: myIcon,
+        draggable: true,
+        title: "My Experience",
+        interactive: true,
+      });
+
+      marker.addTo(leafletMap);
+
+      leafletMap.on("click", (data: any) => {
+        marker.setLatLng(data.latlng);
+      });
+
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      }).addTo(leafletMap);
+
+      setMarkerPosition({ lat, lng });
+
+      // marker.on("move", (data: any) => {
+      //   setMarkerPosition(data.latlng);
+      // });
+
+      const experiences = await Storage.get({ key: MY_EXPERIENCE });
+      if (experiences.value) {
+        const experience = JSON.parse(experiences.value);
+        console.log({ experience });
+
+        const icon = L.divIcon({
+          // iconUrl: experience.photos[0].webviewPath,
+          // iconSize: [40, 40],
+          html: `<div class="fixed">
+          <div class="p-2 bg-white rounded-full relative">
+            <img class="rounded-full" style="width:100%; height:100%;" src="${experience.photos[0].webviewPath}" alt="${experience.name}" />
+          </div>
+          <div class="p-2 bg-white rounded-xl -mt-2">${experience.name} </div>
+          </div>`,
+        });
+
+        const mark: any = new L.Marker(experience.markerPosition, {
+          icon,
+          title: experience.post,
+          interactive: true,
+        });
+
+        mark.addTo(leafletMap);
+      }
+    };
+
+    loadMap().catch(console.error);
   }, []);
 
   return (

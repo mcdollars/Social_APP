@@ -21,6 +21,9 @@ import { Session } from "../models/Schedule";
 import { connect } from "../data/connect";
 import * as selectors from "../data/selectors";
 import CreateExperience from "./CreateExperience";
+import { Storage } from "@capacitor/storage";
+
+const MY_EXPERIENCE = "MYEXPERIENCE";
 
 interface OwnProps {}
 
@@ -93,6 +96,7 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
                 id="open-create-experience-modal"
                 onClick={() => {
                   modal.current?.dismiss();
+                  Storage.set({ key: MY_EXPERIENCE, value: "" });
 
                   setTimeout(() => {
                     setOpenExperience(true);

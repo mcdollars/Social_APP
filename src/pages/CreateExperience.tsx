@@ -19,6 +19,7 @@ import { connect } from "../data/connect";
 import * as selectors from "../data/selectors";
 import { useState } from "react";
 import { Redirect, useHistory } from "react-router";
+import { Storage } from "@capacitor/storage";
 
 interface OwnProps {
   setOpen: any;
@@ -33,8 +34,14 @@ interface DispatchProps {}
 
 interface GroupsProps extends OwnProps, StateProps, DispatchProps {}
 
+const MY_EXPERIENCE = "MYEXPERIENCE";
+
 const Groups: React.FC<GroupsProps> = ({ setOpen }) => {
-  const [form, setForm] = useState({ place: "", experience: "" });
+  const [form, setForm] = useState({
+    place: "",
+    name: "",
+    photos: [],
+  });
   const router = useIonRouter();
 
   const handleExperienceSubmit = async (event: any) => {
@@ -51,6 +58,7 @@ const Groups: React.FC<GroupsProps> = ({ setOpen }) => {
 
       // const result = await resp.json();
       // console.log({ result });
+      Storage.set({ key: MY_EXPERIENCE, value: JSON.stringify(form) });
       setOpen(false);
       setTimeout(() => {
         router.push("/create-experiences-map", "forward", "push");
@@ -114,9 +122,9 @@ const Groups: React.FC<GroupsProps> = ({ setOpen }) => {
                     className="w-full mt-2 border border-slate-100 p-3 rounded-lg"
                     type="text"
                     placeholder="(optional)"
-                    value={form.experience}
+                    value={form.name}
                     onChange={(e) =>
-                      setForm({ ...form, experience: e.target.value })
+                      setForm({ ...form, name: e.target.value })
                     }
                   />
                 </div>
@@ -135,7 +143,7 @@ const Groups: React.FC<GroupsProps> = ({ setOpen }) => {
                 <button
                   type="submit"
                   className={`w-4/5 mx-auto text-center block py-3 text-base font-bold rounded-lg ${
-                    form.place && form.experience
+                    form.place && form.name
                       ? " text-white bg-cyan-500"
                       : "text-gray-color bg-gray-200 disabled"
                   }`}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   IonHeader,
   IonToolbar,
@@ -11,6 +11,9 @@ import {
   IonRow,
   IonCol,
   useIonRouter,
+  IonModal,
+  IonList,
+  IonItem,
 } from "@ionic/react";
 import SpeakerItem from "../components/SpeakerItem";
 import { Speaker } from "../models/Speaker";
@@ -31,11 +34,22 @@ interface DispatchProps {}
 interface GroupsProps extends OwnProps, StateProps, DispatchProps {}
 
 const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
+  const modal = useRef<HTMLIonModalElement>(null);
   const PHOTO_STORAGE = "photos";
+  const MY_EXPERIENCE = "MYEXPERIENCE";
   const router = useIonRouter();
   const [photo, setPhoto] = useState<any>();
+  const [form, setForm] = useState<any>({ post: "" });
 
-  const goBack = () => {
+  const goBack = async () => {
+    const myExperience: any = await Storage.get({ key: MY_EXPERIENCE });
+    Storage.set({
+      key: MY_EXPERIENCE,
+      value: JSON.stringify({
+        ...JSON.parse(myExperience.value),
+        post: form.post,
+      }),
+    });
     router.push("/create-experiences-map", "root", "replace");
   };
 
@@ -43,7 +57,6 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
     const fetchImage = async () => {
       const photos: any = await Storage.get({ key: PHOTO_STORAGE });
       setPhoto(JSON.parse(photos.value)[0].webviewPath);
-      console.log({ photo })
     };
 
     fetchImage().catch(console.error);
@@ -62,6 +75,7 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
                 <span className="text-center">Add Activity</span>
                 <span
                   className="text-xs bg-main-color text-white px-4 py-1 rounded-full"
+                  onClick={goBack}
                 >
                   Next
                 </span>
@@ -74,9 +88,7 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
                 </div>
                 <div>
                   <p className="font-medium">Jade Coleman</p>
-                  <span
-                    className="flex items-center border border-slate-200 rounded-full px-2 py-0.5 mt-0.5"
-                  >
+                  <span className="flex items-center border border-slate-200 rounded-full px-2 py-0.5 mt-0.5">
                     <span className="text-xs text-gray-color mr-1">
                       Thai Vacation
                     </span>
@@ -91,27 +103,25 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
                 type="text"
                 placeholder="Say something about this photo..."
                 className="w-full text-xs p-2 border-0"
+                value={form.post}
+                onChange={(e) => setForm({ post: e.target.value })}
               />
             </div>
             <hr className="mt-2" />
             <div className="text-sm mt-5 px-3 h-96">
               <div>
                 <div className="relative">
-                  <img
-                    className="w-full"
-                    src={photo}
-                    alt=""
-                  />
+                  <img className="w-full" src={photo} alt="" />
                   <span>
                     <img
                       className="absolute top-3 right-3 w-5"
                       src="assets/images/57/delete.png"
                       alt=""
+                      id="open-modal"
                     />
                   </span>
-                  <a
+                  <span
                     style={{ backgroundColor: "rgba(0, 0, 0, 0.384)" }}
-                    href="#"
                     className="flex items-center rounded-full absolute bottom-3 right-3 py-1 px-3"
                   >
                     <div>
@@ -122,7 +132,7 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
                       />
                     </div>
                     <span className="ml-2 text-sm text-white">Cover</span>
-                  </a>
+                  </span>
                 </div>
               </div>
               <div className="flex mt-1">
@@ -187,13 +197,35 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
                 </a>
               </div>
               <div>
-                <a href="#">
+                <span onClick={goBack}>
                   <img src="assets/images/66/Group 18.png" alt="" />
-                </a>
+                </span>
               </div>
             </div>
           </div>
         </div>
+        <IonModal
+          ref={modal}
+          trigger="open-modal"
+          initialBreakpoint={0.25}
+          breakpoints={[0, 0.25, 0.5, 0.75]}
+        >
+          <IonContent>
+            <IonList>
+              <IonItem>Photo Options</IonItem>
+              <IonItem>Make private</IonItem>
+              <IonItem>Delete photo</IonItem>
+              <IonItem
+                id="open-photo-menu"
+                onClick={() => {
+                  modal.current?.dismiss();
+                }}
+              >
+                Close
+              </IonItem>
+            </IonList>
+          </IonContent>
+        </IonModal>
       </IonContent>
     </IonPage>
   );
