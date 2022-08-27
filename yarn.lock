@@ -1074,10 +1074,10 @@
   resolved "https://registry.npmjs.org/@capacitor/android/-/android-3.5.0.tgz"
   integrity sha512-1SiTMMdd+urvDRrSLDmrFUU9Ldm8B2mUzVNvx8u1zgagZVPNQLoMY4WX8EkpPjt4+D6YIoBjdqb72LID9Iip6A==
 
-"@capacitor/camera@^4.0.1":
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/@capacitor/camera/-/camera-4.0.1.tgz#6f76da92db508c1ed22a23b2bebc72fb538cadd5"
-  integrity sha512-ys8DV8gpnIGum23XFf25BtkEIoH4CpSDt8IT0F3DVLEQDFeepZbTsY4o+LuZ0cm4Gr0tl6Gi2wCbgcasezLY+w==
+"@capacitor/camera@^4.1.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@capacitor/camera/-/camera-4.1.0.tgz#911f4a741f9cd6871d301723a662f6da76f61317"
+  integrity sha512-MgsE4O/J/3dzLeTQw6PnVYXQzyfVMSLknyG/2Lk+H8Hix5i+vLmHtr2YHQoM04IwC0xtdw0rAMJCl9NH6SpseQ==
 
 "@capacitor/cli@^3.5.1":
   version "3.5.1"
@@ -1115,7 +1115,7 @@
 
 "@capacitor/storage@^1.2.5":
   version "1.2.5"
-  resolved "https://registry.npmjs.org/@capacitor/storage/-/storage-1.2.5.tgz"
+  resolved "https://registry.yarnpkg.com/@capacitor/storage/-/storage-1.2.5.tgz#48206869cbbf1404fcdbb5c440a882140bd3abd8"
   integrity sha512-pWhnw4U7wN/zFV4lA4BLMypSufTktCbk548Yk4whSb0KAq3R0mLfSubRIHkGdcPqQWCsM6g/zUuszurhz6ncWQ==
 
 "@codetrix-studio/capacitor-google-auth@^2.1.3":
