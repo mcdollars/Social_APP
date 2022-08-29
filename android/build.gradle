@@ -1,55 +1,29 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
+    
     repositories {
-        mavenCentral()
         google()
-        maven { url 'https://maven.testfairy.com' }
+        mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.4'
-        classpath 'com.google.gms:google-services:4.3.13'
-        // classpath 'com.google.gms:google-services:4.2.0'
+        classpath 'com.android.tools.build:gradle:7.2.1'
+        classpath 'com.google.gms:google-services:4.3.10'
 
-    // NOTE: Do not place your application dependencies here; they belong
-    // in the individual module build.gradle files
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
     }
 }
+
+apply from: "variables.gradle"
 
 allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
-
-// rootProject.allprojects {
-//     configurations.all {
-//         resolutionStrategy {
-//             resolutionStrategy.eachDependency { details ->
-//                 if (details.requested.group == 'androidx.core') {
-//                     details.useVersion '1.0.2'
-//                 }
-//                 if (details.requested.group == 'androidx.lifecycle') {
-//                     details.useVersion '2.0.0'
-//                 }
-//                 if (details.requested.group == 'androidx.versionedparcelable') {
-//                     details.useVersion '1.0.0'
-//                 }
-//                 if (details.requested.group == 'androidx.fragment') {
-//                     details.useVersion '1.0.0'
-//                 }
-//                 if (details.requested.group == 'androidx.appcompat') {
-//                     details.useVersion '1.0.1'
-//                 }
-//                 if (details.requested.group == 'androidx.annotation') {
-//                     details.useVersion '1.0.2'
-//                 }
-//             }
-//         }
-//     }
-// }

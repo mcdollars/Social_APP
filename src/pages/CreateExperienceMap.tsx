@@ -33,6 +33,7 @@ import { isPlatform } from "@ionic/react";
 
 import {
   Camera,
+  CameraDirection,
   CameraResultType,
   CameraSource,
   Photo,
@@ -40,6 +41,8 @@ import {
 import { Filesystem, Directory } from "@capacitor/filesystem";
 import { Capacitor } from "@capacitor/core";
 import { Storage } from "@capacitor/storage";
+import { decode } from "base64-arraybuffer";
+import moment from "moment";
 
 const PHOTO_STORAGE = "photos";
 const MY_EXPERIENCE = "MYEXPERIENCE";
@@ -76,6 +79,14 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
       router.goBack();
     }
   };
+
+  function blobToBase64(blob: any) {
+    return new Promise((resolve, _) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.readAsDataURL(blob);
+    });
+  }
 
   const [photos, setPhotos] = useState<UserPhoto[]>([]);
 
@@ -131,22 +142,42 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
 
   const takePhoto = async () => {
     const photo = await Camera.getPhoto({
-      resultType: CameraResultType.Uri,
+      resultType: CameraResultType.Base64,
       source: CameraSource.Camera,
+      direction: CameraDirection.Rear,
       quality: 100,
+      allowEditing: false,
+      saveToGallery: true,
     });
 
-    const fileName = new Date().getTime() + ".jpeg";
-    const savedFileImage = await savePicture(photo, fileName);
-    const newPhotos = [savedFileImage, ...photos];
-    setPhotos(newPhotos);
+    const blob = new Blob(
+      [new Uint8Array(decode(photo.base64String as string))],
+      {
+        type: `image/${photo.format}`,
+      }
+    );
 
-    Storage.set({ key: PHOTO_STORAGE, value: JSON.stringify(newPhotos) });
+    const imgName = new Date().toISOString();
+
+    const file = new File([blob], `${imgName}.${blob.type}`, {
+      lastModified: moment().unix(),
+      type: blob.type,
+    });
+
+    // const fileName = new Date().getTime() + ".jpeg";
+    // const savedFileImage = await savePicture(photo, fileName);
+    // const newPhotos = [savedFileImage, ...photos];
+    // setPhotos(newPhotos);
+
+    Storage.set({
+      key: PHOTO_STORAGE,
+      value: JSON.stringify(await blobToBase64(blob)),
+    });
 
     let myExperience: any = await Storage.get({ key: MY_EXPERIENCE });
     let val: any = JSON.parse(myExperience.value);
 
-    val.photos.push(...newPhotos);
+    val.photos.push(await blobToBase64(blob));
 
     Storage.set({
       key: MY_EXPERIENCE,
@@ -193,33 +224,28 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
 
       setMarkerPosition({ lat, lng });
 
-      // marker.on("move", (data: any) => {
-      //   setMarkerPosition(data.latlng);
-      // });
-
       const experiences = await Storage.get({ key: MY_EXPERIENCE });
       if (experiences.value) {
         const experience = JSON.parse(experiences.value);
-        console.log({ experience });
 
-        const icon = L.divIcon({
-          // iconUrl: experience.photos[0].webviewPath,
-          // iconSize: [40, 40],
-          html: `<div class="fixed">
+        if (experience.photos.length > 0) {
+          const icon = L.divIcon({
+            html: `<div class="fixed">
           <div class="p-2 bg-white rounded-full relative">
-            <img class="rounded-full" style="width:100%; height:100%;" src="${experience.photos[0].webviewPath}" alt="${experience.name}" />
+            <img class="rounded-full" style="width:100%; height:100%;" src="${experience.photos[0]}" alt="${experience.name}" />
           </div>
           <div class="p-2 bg-white rounded-xl -mt-2">${experience.name} </div>
           </div>`,
-        });
+          });
 
-        const mark: any = new L.Marker(experience.markerPosition, {
-          icon,
-          title: experience.post,
-          interactive: true,
-        });
+          const mark: any = new L.Marker(experience.markerPosition, {
+            icon,
+            title: experience.post,
+            interactive: true,
+          });
 
-        mark.addTo(leafletMap);
+          mark.addTo(leafletMap);
+        }
       }
     };
 

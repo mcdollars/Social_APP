@@ -7,7 +7,10 @@
   "cordova": {},
   "plugins": {
     "GoogleAuth": {
-      "scopes": ["profile", "email"],
+      "scopes": [
+        "profile",
+        "email"
+      ],
       "serverClientId": "290121378528-khucsr4vs85u83c2reco77m3o9kkb629.apps.googleusercontent.com",
       "forceCodeForRefreshToken": true,
       "grantOfflineAccess": true

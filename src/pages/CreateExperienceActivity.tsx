@@ -56,7 +56,7 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
   useEffect(() => {
     const fetchImage = async () => {
       const photos: any = await Storage.get({ key: PHOTO_STORAGE });
-      setPhoto(JSON.parse(photos.value)[0].webviewPath);
+      setPhoto(JSON.parse(photos.value));
     };
 
     fetchImage().catch(console.error);
