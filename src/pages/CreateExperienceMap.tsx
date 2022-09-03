@@ -27,6 +27,7 @@ import * as selectors from "../data/selectors";
 import * as L from "leaflet";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { add, camera, bookmark, star } from "ionicons/icons";
+import { App } from "@capacitor/app";
 import "./CreateExperienceMap.scss";
 
 import { isPlatform } from "@ionic/react";
@@ -40,7 +41,7 @@ import {
 } from "@capacitor/camera";
 import { Filesystem, Directory } from "@capacitor/filesystem";
 import { Capacitor } from "@capacitor/core";
-import { Storage } from "@capacitor/storage";
+import { Preferences } from "@capacitor/preferences";
 import { decode } from "base64-arraybuffer";
 import moment from "moment";
 
@@ -142,13 +143,34 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
 
   const takePhoto = async () => {
     const photo = await Camera.getPhoto({
-      resultType: CameraResultType.Base64,
-      source: CameraSource.Camera,
-      direction: CameraDirection.Rear,
-      quality: 100,
+      resultType: CameraResultType.Uri,
+      quality: 80,
       allowEditing: false,
       saveToGallery: true,
+      // direction: CameraDirection.Rear,
+      // source: CameraSource.Camera,
     });
+
+    // const fileName = new Date().getTime() + ".jpeg";
+    // const savedFileImage = await savePicture(photo, fileName);
+    // const newPhotos = [savedFileImage, ...photos];
+    // setPhotos(newPhotos);
+
+    await Preferences.set({
+      key: PHOTO_STORAGE,
+      value: JSON.stringify(photo),
+    });
+
+    let myExperience: any = await Preferences.get({ key: MY_EXPERIENCE });
+    let val: any = JSON.parse(myExperience.value);
+
+    val.photos.push(photo);
+
+    await Preferences.set({
+      key: MY_EXPERIENCE,
+      value: JSON.stringify({ ...val, markerPosition }),
+    });
+    /*
 
     const blob = new Blob(
       [new Uint8Array(decode(photo.base64String as string))],
@@ -164,10 +186,6 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
       type: blob.type,
     });
 
-    // const fileName = new Date().getTime() + ".jpeg";
-    // const savedFileImage = await savePicture(photo, fileName);
-    // const newPhotos = [savedFileImage, ...photos];
-    // setPhotos(newPhotos);
 
     Storage.set({
       key: PHOTO_STORAGE,
@@ -184,6 +202,7 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
       value: JSON.stringify({ ...val, markerPosition }),
     });
 
+    */
     setTimeout(() => {
       router.push("/create-experiences-activity", "root", "pop");
     }, 800);
@@ -224,7 +243,7 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
 
       setMarkerPosition({ lat, lng });
 
-      const experiences = await Storage.get({ key: MY_EXPERIENCE });
+      const experiences = await Preferences.get({ key: MY_EXPERIENCE });
       if (experiences.value) {
         const experience = JSON.parse(experiences.value);
 
@@ -232,7 +251,7 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
           const icon = L.divIcon({
             html: `<div class="fixed">
           <div class="p-2 bg-white rounded-full relative">
-            <img class="rounded-full" style="width:100%; height:100%;" src="${experience.photos[0]}" alt="${experience.name}" />
+            <img class="rounded-full" style="width:100%; height:100%;" src="${experience.photos[0].webPath}" alt="${experience.name}" />
           </div>
           <div class="p-2 bg-white rounded-xl -mt-2">${experience.name} </div>
           </div>`,

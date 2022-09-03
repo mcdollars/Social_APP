@@ -15,14 +15,21 @@
 
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
 
-    <link rel="shortcut icon" type="image/png" href="%PUBLIC_URL%/assets/icon/favicon.png" />
+    <link
+      rel="shortcut icon"
+      type="image/png"
+      href="%PUBLIC_URL%/assets/icon/favicon.png"
+    />
 
     <!-- add to homescreen for ios -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="Social Experience App" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
-    <meta name="google-signin-client_id" content="665268782433-23aa2cv3n4lv48b9jn4eqf51kk598q24.apps.googleusercontent.com" />
+    <meta
+      name="google-signin-client_id"
+      content="665268782433-23aa2cv3n4lv48b9jn4eqf51kk598q24.apps.googleusercontent.com"
+    />
     <meta name="google-signin-scope" content="profile email" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -37,13 +44,26 @@
       rel="stylesheet"
     />
     <!-- <meta name="google-signin-client_id" content="290121378528-589jp14o4le1q7aqimfsb9c6dhc596d3.apps.googleusercontent.com"> -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
-
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
+    />
+    <script
+      type="module"
+      src="https://unpkg.com/@ionic/pwa-elements@latest/dist/ionicpwaelements/ionicpwaelements.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/@ionic/pwa-elements@latest/dist/ionicpwaelements/ionicpwaelements.js"
+    ></script>
   </head>
 
   <body>
     <div id="root"></div>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmAwkv8-x2I--ne-NtA3C_4E_-xLCsFJs" async defer></script>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmAwkv8-x2I--ne-NtA3C_4E_-xLCsFJs"
+      async
+      defer
+    ></script>
   </body>
-
 </html>

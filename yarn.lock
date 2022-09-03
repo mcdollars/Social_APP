@@ -1074,6 +1074,11 @@
   resolved "https://registry.yarnpkg.com/@capacitor/android/-/android-4.0.0-beta.2.tgz#caf872c5d1cceea2227ba85ee27843b6e2892fd3"
   integrity sha512-bamzyJXT4p3X9mLPfvHDg9wLT6UBCEm2lVYVmbgIEZzybcXt6qxiSWmNpkWPtEwr4JDouNRNDixmCzmDxYR1Sw==
 
+"@capacitor/app@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@capacitor/app/-/app-4.0.1.tgz#05c60541c427ef30f4762d8f786e70d0ed32fe01"
+  integrity sha512-frPft9TMJL70jWq5jmxwGSBddZVvsWxX5Agj2i19WJerk37aTgljB05HRr/YLg6mF1G/NIXmmFJZDY8MEgirDg==
+
 "@capacitor/camera@^4.1.0":
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/@capacitor/camera/-/camera-4.1.0.tgz#911f4a741f9cd6871d301723a662f6da76f61317"
@@ -1101,10 +1106,10 @@
     tslib "^2.4.0"
     xml2js "^0.4.23"
 
-"@capacitor/core@^4.0.0-beta.2":
-  version "4.0.0-beta.2"
-  resolved "https://registry.yarnpkg.com/@capacitor/core/-/core-4.0.0-beta.2.tgz#b161857d86c144300214f95557c59b95dc229768"
-  integrity sha512-0uEArXtGH5sno1jxXrPvzntydB1Y1WG/3tFWjaqbGES8uMd6OOH/UNVmmJpQS23jyiiAQgA5i+kPNvsY2gY6Yw==
+"@capacitor/core@^4.1.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@capacitor/core/-/core-4.1.0.tgz#4f5b80cd9cbf65bfc5a203082399fa794ffc5f45"
+  integrity sha512-bMYFnC5l5n11D/kLTz9TOOJfUH+nQqYRwzG7h5h4AXIm8aFxH5ZY3iFlDZd7R4xcyrlnfxzfoooSH9trPjRBLA==
   dependencies:
     tslib "^2.1.0"
 
@@ -1119,6 +1124,11 @@
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/@capacitor/filesystem/-/filesystem-4.0.1.tgz#bafda9c46d8ad284f0a30c9ff39506e570c285a5"
   integrity sha512-raaXRHi9Uy9OZw/PuiIhh0ozNdrU+U3Vh06eEDlhfegyA3mR8GmeB3IhwqqnTj7OQTKreN1XgcgR6grvgoLR/g==
+
+"@capacitor/preferences@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@capacitor/preferences/-/preferences-4.0.1.tgz#fd56f24fe2cde1222cf5c3057d52cd55fd033e7b"
+  integrity sha512-FffJjKS4XcodUj/rtFtWizQ9q/oYDSn5opZ+JYwj/EkjiMWMhY/Pk9lN3vwQfp+VJrTt3hjr+bwKXjhTbYBqKw==
 
 "@capacitor/storage@^1.2.5":
   version "1.2.5"

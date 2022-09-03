@@ -20,7 +20,7 @@ import { Speaker } from "../models/Speaker";
 import { Session } from "../models/Schedule";
 import { connect } from "../data/connect";
 import * as selectors from "../data/selectors";
-import { Storage } from "@capacitor/storage";
+import { Preferences } from "@capacitor/preferences";
 
 interface OwnProps {}
 
@@ -42,8 +42,8 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
   const [form, setForm] = useState<any>({ post: "" });
 
   const goBack = async () => {
-    const myExperience: any = await Storage.get({ key: MY_EXPERIENCE });
-    Storage.set({
+    const myExperience: any = await Preferences.get({ key: MY_EXPERIENCE });
+    Preferences.set({
       key: MY_EXPERIENCE,
       value: JSON.stringify({
         ...JSON.parse(myExperience.value),
@@ -55,12 +55,12 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
 
   useEffect(() => {
     const fetchImage = async () => {
-      const photos: any = await Storage.get({ key: PHOTO_STORAGE });
+      const photos: any = await Preferences.get({ key: PHOTO_STORAGE });
       setPhoto(JSON.parse(photos.value));
     };
 
     fetchImage().catch(console.error);
-  }, [photo, setPhoto]);
+  }, []);
 
   return (
     <IonPage id="speaker-list">
@@ -109,32 +109,35 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
             </div>
             <hr className="mt-2" />
             <div className="text-sm mt-5 px-3 h-96">
-              <div>
-                <div className="relative">
-                  <img className="w-full" src={photo} alt="" />
-                  <span>
-                    <img
-                      className="absolute top-3 right-3 w-5"
-                      src="assets/images/57/delete.png"
-                      alt=""
-                      id="open-modal"
-                    />
-                  </span>
-                  <span
-                    style={{ backgroundColor: "rgba(0, 0, 0, 0.384)" }}
-                    className="flex items-center rounded-full absolute bottom-3 right-3 py-1 px-3"
-                  >
-                    <div>
+              {photo && (
+                <div>
+                  <div className="relative">
+                    <img className="w-full" src={photo.webPath} alt="" />
+                    <span>
                       <img
-                        className="w-3"
-                        src="assets/images/66/Stroke 1.png"
+                        className="absolute top-3 right-3 w-5"
+                        src="assets/images/57/delete.png"
                         alt=""
+                        id="open-modal"
                       />
-                    </div>
-                    <span className="ml-2 text-sm text-white">Cover</span>
-                  </span>
+                    </span>
+                    <span
+                      style={{ backgroundColor: "rgba(0, 0, 0, 0.384)" }}
+                      className="flex items-center rounded-full absolute bottom-3 right-3 py-1 px-3"
+                    >
+                      <div>
+                        <img
+                          className="w-3"
+                          src="assets/images/66/Stroke 1.png"
+                          alt=""
+                        />
+                      </div>
+                      <span className="ml-2 text-sm text-white">Cover</span>
+                    </span>
+                  </div>
                 </div>
-              </div>
+              )}
+
               <div className="flex mt-1">
                 <div className="grid grid-cols-3 gap-1">
                   <div className="relative">
