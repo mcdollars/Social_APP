@@ -36,13 +36,19 @@ import {
   setUsername,
   loadUserData,
 } from "./data/user/user.actions";
+import { createStore } from "./util/store";
+import { Schedule } from "./models/Schedule";
+import PrivateRoute from "./components/PrivateRoute";
+import PublicRoute from "./components/PublicRoute";
+import { PrivatePages, PublicPages } from "./routes";
+{
+  /*
 import Account from "./pages/Account";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Support from "./pages/Support";
 import Tutorial from "./pages/Tutorial";
 import HomeOrTutorial from "./components/HomeOrTutorial";
-import { Schedule } from "./models/Schedule";
 import RedirectToLogin from "./components/RedirectToLogin";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
@@ -52,7 +58,6 @@ import CompleteProfile from "./pages/CompleteProfile";
 import SetupInterest from "./pages/SetupInterest";
 import LoginPhoneNumber from "./pages/LoginPhoneNumber";
 
-import { createStore } from "./util/store";
 import ViewAlbum from "./pages/ViewAlbum";
 import Map from "./pages/Map";
 import MapAlbum from "./pages/MapAlbum";
@@ -93,6 +98,9 @@ import UserExperience from "./pages/UserExperience";
 import Messages from "./pages/Messages";
 import Notifications from "./pages/Notifications";
 import ExperienceMapMostPopular from "./pages/ExperienceMapMostPopular";
+*/
+}
+// import { PrivatePages, PublicPages } from "./routes";
 
 const App: React.FC = () => {
   return (
@@ -135,6 +143,31 @@ const IonicApp: React.FC<IonicAppProps> = ({
     // eslint-disable-next-line
   }, []);
 
+  const getRoutes = (routes: any, type: string) => {
+    if (type === "private") {
+      return routes.map((route: any, index: any) => (
+        <PrivateRoute
+          key={index}
+          exact={route.exact}
+          path={route.path}
+          // auth={auth}
+          // userProfile={userProfile}
+          component={route.component}
+        />
+      ));
+    }
+
+    return routes.map((route: any, index: any) => (
+      <PublicRoute
+        key={index}
+        exact={route.exact}
+        // auth={auth}
+        path={route.path}
+        component={route.component}
+      />
+    ));
+  };
+
   return schedule.groups.length === 0 ? (
     <div></div>
   ) : (
@@ -143,11 +176,8 @@ const IonicApp: React.FC<IonicAppProps> = ({
         <IonSplitPane contentId="main">
           <Menu />
           <IonRouterOutlet id="main">
-            {/*
-                We use IonRoute here to keep the tabs state intact,
-                which makes transitions between tabs and non tab pages smooth
-                */}
             <Route path="/tabs" render={() => <MainTabs />} />
+            {/*
             <Route path="/account" component={Account} />
             <Route path="/login" component={Login} />
             <Route path="/login-phone-number" component={LoginPhoneNumber} />
@@ -239,6 +269,9 @@ const IonicApp: React.FC<IonicAppProps> = ({
               }}
             />
             <Route path="/" component={HomeOrTutorial} exact />
+            */}
+            {getRoutes(PublicPages, "public")}
+            {getRoutes(PrivatePages, "private")}
           </IonRouterOutlet>
         </IonSplitPane>
       </IonReactRouter>

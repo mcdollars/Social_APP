@@ -94,12 +94,12 @@ const Login: React.FC<LoginProps> = ({
           <img src="assets/img/logo.png" alt="Ionic logo" className="m-4" />
           <h1 className="text-4xl px-4 py-8">Login</h1>
         </div>
-        <button
+        {/* <button
           className="w-1/2 py-4 border-2 border-gray-400 bg-gray-200 mx-auto rounded-xl"
           onClick={handleGoogle}
         >
           Google Sign in
-        </button>
+        </button> */}
 
         <form noValidate onSubmit={login} className="px-4 mb-auto">
           <label htmlFor="email" className="mb-2 block">
@@ -190,10 +190,10 @@ const Login: React.FC<LoginProps> = ({
           </div>
           <div className="mb-auto">
             <a
-              href="/signup-phone-number"
+              href="/signup"
               className="w-full my-8 bg-purple-600 text-white py-4 block rounded-xl font-bold"
             >
-              Sign up with phone number{" "}
+              Sign up with email{" "}
             </a>
             <div>or</div>
             <div

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { IonContent, IonPage } from "@ionic/react";
+import { IonContent, IonPage, useIonRouter } from "@ionic/react";
 import "./Login.scss";
 import {
   setIsLoggedIn,
@@ -34,6 +34,7 @@ const CompleteProfile: React.FC<LoginProps> = ({
   setUsername: setUsernameAction,
   setEmail: setEmailAction,
 }) => {
+  const router = useIonRouter();
   const location = useLocation();
   const state: any = location.state;
 
@@ -51,56 +52,63 @@ const CompleteProfile: React.FC<LoginProps> = ({
   const signup = async (e: React.FormEvent) => {
     e.preventDefault();
     const data = new FormData(e.target as any);
-    const formProps : any = Object.fromEntries(data);
+    const formProps: any = Object.fromEntries(data);
 
     setFormSubmitted(true);
 
     if (formSubmitted) {
       try {
-        const response = await fetch(
-          `${process.env.REACT_APP_API}/api/profile`,
-          {
-            method: "PUT",
-            body: data
-            // headers: {
-            //   // Accept: "application/json",
-            //   // "x-access-token": state.state.token,
-            // },
-          }
-        );
+        // const response = await fetch(
+        //   `${process.env.REACT_APP_API}/api/profile`,
+        //   {
+        //     method: "PUT",
+        //     body: data,
+        //     // headers: {
+        //     //   // Accept: "application/json",
+        //     //   // "x-access-token": state.state.token,
+        //     // },
+        //   }
+        // );
 
-        if (!response.ok) {
-          const message = await response.json();
-          console.log(message.message);
-        } else {
-          const result = await response.json();
-          await setIsLoggedIn(true);
-          history.push("/signup-interest", {
-            direction: "none",
-            state: result,
-          });
-        }
+        // if (!response.ok) {
+        //   const message = await response.json();
+        //   console.log(message.message);
+        // } else {
+        //   const result = await response.json();
+        //   await setIsLoggedIn(true);
+        router.push(
+          "/signup-interest",
+          "forward",
+          "push"
+          // state: result,
+        );
+        // }
       } catch (err) {
         console.log(err);
       }
     }
   };
 
+  const skip = () => {
+    router.push("/signup-interest", "forward", "push");
+  };
+
   return (
     <IonPage id="login-page">
       <IonContent>
-        <form noValidate onSubmit={signup} className="flex flex-col h-screen" encType="multipart/form-data">
+        <form
+          noValidate
+          onSubmit={signup}
+          className="flex flex-col h-screen"
+          encType="multipart/form-data"
+        >
           <div className="container p-4 mb-auto">
             <div className="flex flex-row justify-between mb-2">
               <h6 className="text-2xl inline">Complete Profile</h6>
               <a
                 href="/signup-interest"
                 className="text-xl inline text-violet-800"
-                onClick={() =>
-                  history.push("/signup-interest", {
-                    direction: "none",
-                  })
-                }
+                onClick={skip}
               >
                 Skip
               </a>
@@ -119,7 +127,12 @@ const CompleteProfile: React.FC<LoginProps> = ({
               >
                 Upload
               </label>
-              <input className="hidden" id="upload-profile" type="file" name="avatar" />
+              <input
+                className="hidden"
+                id="upload-profile"
+                type="file"
+                name="avatar"
+              />
             </div>
             <div className="flex flex-row justify-between my-6">
               <div className="mr-2">
@@ -223,47 +236,15 @@ const CompleteProfile: React.FC<LoginProps> = ({
                 />
               </div>
             </div>
-            <div className="my-6">
-              <div>
-                <label htmlFor="email" className="block">
-                  Email
-                </label>
-                <input
-                  type="text"
-                  name="email"
-                  onChange={(e) =>
-                    setFormData({ ...formData, email: e.target.value })
-                  }
-                  placeholder="(optional)"
-                  className="border-2 border-gray-300 rounded-xl w-full"
-                />
-              </div>
-            </div>
           </div>
           <div className="p-4">
-            <div className="mb-6 text-center">
-              <p>
-                <input
-                  type="checkbox"
-                  name="agree"
-                  value="agree"
-                  className="mr-2"
-                  onChange={(e) => setAgree(!agree)}
-                />
-                I agree with Terms of Service and Privacy Policy
-              </p>
-            </div>
             <div className="mb-6">
               <button
                 type="submit"
-                className={
-                  agree === true
-                    ? "bg-gray-300 w-full p-4 rounded-xl text-gray-500"
-                    : "bg-purple-600 w-full p-4 rounded-xl text-white"
-                }
+                className={"bg-purple-600 w-full p-4 rounded-xl text-white"}
                 disabled={agree}
               >
-                Create Account
+                Update
               </button>
             </div>
           </div>
