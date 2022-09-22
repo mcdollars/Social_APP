@@ -10,7 +10,6 @@ import SetupInterest from "../pages/SetupInterest";
 import LoginPhoneNumber from "../pages/LoginPhoneNumber";
 
 const routes: any = [
-  { path: "/signup-interest", component: SetupInterest, exact: true },
   { path: "/login", component: Login, exact: true },
   { path: "/login-phone-number", component: LoginPhoneNumber, exact: true },
   { path: "/reset-password", component: ResetPassword, exact: true },
@@ -18,7 +17,7 @@ const routes: any = [
   { path: "/signup", component: Signup, exact: true },
   { path: "/signup-phone-number", component: SignupPhoneNumber, exact: true },
   { path: "/signup-verify-number", component: SignupVerify, exact: true },
-  { path: "/signup-interest", component: SignupVerify, exact: true },
+  { path: "/signup-interest", component: SetupInterest, exact: true },
   {
     path: "/signup-complete-profile",
     component: CompleteProfile,

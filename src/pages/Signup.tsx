@@ -14,6 +14,7 @@ import { set } from "../util/store";
 // import { GooglePlus } from '@ionic-native/google-plus'
 import { GoogleAuth } from "@codetrix-studio/capacitor-google-auth";
 import { Plugins } from "@capacitor/core";
+import Store from "../helpers/Store";
 
 interface OwnProps extends RouteComponentProps {}
 
@@ -37,8 +38,9 @@ const Signup: React.FC<SignupProps> = ({
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
+  const [tosError, setTosError] = useState(false);
   const [signupModal, setSignupModal] = useState(false);
-  const [agree, setAgree] = useState(true);
+  const [agree, setAgree] = useState(false);
   const router = useIonRouter();
 
   const signup = async (e: React.FormEvent) => {
@@ -50,8 +52,11 @@ const Signup: React.FC<SignupProps> = ({
     if (!password) {
       setPasswordError(true);
     }
+    if (agree === false) {
+      setTosError(true);
+    }
 
-    if (email && password && confirmpassword) {
+    if (email && password && confirmpassword && agree) {
       try {
         // const response = await fetch(
         //   `${process.env.REACT_APP_API}/auth/signup`,
@@ -71,6 +76,9 @@ const Signup: React.FC<SignupProps> = ({
         // } else {
         //   const result = await response.json();
         //   set("token", result.token);
+
+        Store.set("signup", { email, password, agree });
+
         router.push("/signup-complete-profile", "forward", "push");
         // }
       } catch (err) {
@@ -136,6 +144,11 @@ const Signup: React.FC<SignupProps> = ({
             onChange={(e) => setPassword(e.target.value!)}
             required
           ></input>
+          {formSubmitted && passwordError && (
+            <span className="text-red-400">
+              <p className="ion-padding-start">Password is required</p>
+            </span>
+          )}
 
           <label htmlFor="email" className="mb-2 block">
             Confirm Password
@@ -158,11 +171,6 @@ const Signup: React.FC<SignupProps> = ({
             </span>
           )}
 
-          {formSubmitted && passwordError && (
-            <span className="text-red-400">
-              <p className="ion-padding-start">Password is required</p>
-            </span>
-          )}
           <div className="mb-6 text-center">
             <p>
               <input
@@ -175,6 +183,13 @@ const Signup: React.FC<SignupProps> = ({
               I agree with Terms of Service and Privacy Policy
             </p>
           </div>
+          {formSubmitted && tosError && (
+            <span className="text-red-400">
+              <p className="ion-padding-start">
+                You need to agree with our Terms and Conditions
+              </p>
+            </span>
+          )}
 
           <button
             type="submit"

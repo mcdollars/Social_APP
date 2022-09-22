@@ -9,6 +9,7 @@ import {
 import { connect } from "../data/connect";
 import { RouteComponentProps, useLocation } from "react-router";
 import { set } from "../util/store";
+import Store from "../helpers/Store";
 
 interface OwnProps extends RouteComponentProps {}
 
@@ -56,42 +57,40 @@ const SetupInterest: React.FC<LoginProps> = ({
 
   const setupInterest = async (e: React.FormEvent) => {
     e.preventDefault();
-    setFormSubmitted(true);
 
-    if (formSubmitted) {
-      // await setEmailAction(email);
-      // history.push("/tabs/home", { direction: "none" });
-      try {
-        //   const response = await fetch(
-        //     `${process.env.REACT_APP_API}/api/profile`,
-        //     {
-        //       method: "PUT",
-        //       body: JSON.stringify({ interests: selectedInterest }),
-        //       headers: {
-        //         "Content-Type": "application/json",
-        //         Accept: "application/json",
-        //         // "x-access-token": state.state.token,
-        //       },
-        //     }
-        //   );
+    // await setEmailAction(email);
+    // history.push("/tabs/home", { direction: "none" });
+    try {
+      const signup = await Store.get("signup");
+      // Store.remove("signup");
 
-        //   if (!response.ok) {
-        //     const message = await response.json();
-        //     console.log(message.message);
-        //   } else {
-        //     const result = await response.json();
-        //     set("token", result.token);
-        //     await setIsLoggedIn(true);
+      const response = await fetch(`${process.env.REACT_APP_API}/api/profile`, {
+        method: "PUT",
+        body: JSON.stringify({ ...signup, interests: selectedInterest }),
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          // "x-access-token": state.state.token,
+        },
+      });
+
+      if (!response.ok) {
+        const message = await response.json();
+        console.log(message.message);
+      } else {
+        const result = await response.json();
+        set("token", result.token);
+        await setIsLoggedIn(true);
+
         router.push(
           "/tabs/home",
           "forward",
           "push"
           // state: result,
         );
-        // }
-      } catch (err) {
-        console.log(err);
       }
+    } catch (err) {
+      console.log(err);
     }
   };
 

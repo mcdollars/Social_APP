@@ -41,6 +41,7 @@ import { Schedule } from "./models/Schedule";
 import PrivateRoute from "./components/PrivateRoute";
 import PublicRoute from "./components/PublicRoute";
 import { PrivatePages, PublicPages } from "./routes";
+import RedirectToLogin from "./components/RedirectToLogin";
 {
   /*
 import Account from "./pages/Account";
@@ -176,6 +177,10 @@ const IonicApp: React.FC<IonicAppProps> = ({
         <IonSplitPane contentId="main">
           <Menu />
           <IonRouterOutlet id="main">
+            <RedirectToLogin
+              setIsLoggedIn={setIsLoggedIn}
+              setUsername={setUsername}
+            />
             <Route path="/tabs" render={() => <MainTabs />} />
             {/*
             <Route path="/account" component={Account} />

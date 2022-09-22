@@ -8,6 +8,7 @@ import {
 } from "../data/user/user.actions";
 import { connect } from "../data/connect";
 import { RouteComponentProps, useLocation } from "react-router";
+import Store from "../helpers/Store";
 
 interface OwnProps extends RouteComponentProps {}
 
@@ -38,8 +39,6 @@ const CompleteProfile: React.FC<LoginProps> = ({
   const location = useLocation();
   const state: any = location.state;
 
-  const [formSubmitted, setFormSubmitted] = useState(false);
-  const [agree, setAgree] = useState(true);
   const [formData, setFormData] = useState<SignupForm>({
     firstname: "",
     lastname: "",
@@ -54,9 +53,7 @@ const CompleteProfile: React.FC<LoginProps> = ({
     const data = new FormData(e.target as any);
     const formProps: any = Object.fromEntries(data);
 
-    setFormSubmitted(true);
 
-    if (formSubmitted) {
       try {
         // const response = await fetch(
         //   `${process.env.REACT_APP_API}/api/profile`,
@@ -76,6 +73,10 @@ const CompleteProfile: React.FC<LoginProps> = ({
         // } else {
         //   const result = await response.json();
         //   await setIsLoggedIn(true);
+        const signup = await Store.get("signup");
+        formProps.avatar = '';
+        await Store.set("signup", { ...signup, ...formProps });
+
         router.push(
           "/signup-interest",
           "forward",
@@ -86,7 +87,6 @@ const CompleteProfile: React.FC<LoginProps> = ({
       } catch (err) {
         console.log(err);
       }
-    }
   };
 
   const skip = () => {
@@ -242,7 +242,6 @@ const CompleteProfile: React.FC<LoginProps> = ({
               <button
                 type="submit"
                 className={"bg-purple-600 w-full p-4 rounded-xl text-white"}
-                disabled={agree}
               >
                 Update
               </button>

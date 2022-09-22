@@ -21,6 +21,7 @@ import { Session } from "../models/Schedule";
 import { connect } from "../data/connect";
 import * as selectors from "../data/selectors";
 import { Preferences } from "@capacitor/preferences";
+import Store from "../helpers/Store";
 
 interface OwnProps {}
 
@@ -53,6 +54,10 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
     router.push("/create-experiences-map", "root", "replace");
   };
 
+  const openQuickTips = async () => {
+    router.push("/add-quick-tips", "root", "replace");
+  };
+
   useEffect(() => {
     const fetchImage = async () => {
       const photos: any = await Preferences.get({ key: PHOTO_STORAGE });
@@ -61,6 +66,41 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
 
     fetchImage().catch(console.error);
   }, []);
+
+  const addExperience = async (e: React.FormEvent) => {
+    try {
+      const myExperience = await Store.get("MYEXPERIENCE");
+      const quickTips = await Store.get("quickTips");
+
+      const response = await fetch(
+        `${process.env.REACT_APP_API}/api/experience`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            ...myExperience,
+            quickTips: quickTips.map((qt: string) => ({ tip: qt })),
+          }),
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            // "x-access-token": state.state.token,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        const message = await response.json();
+        console.log(message.message);
+      } else {
+        const result = await response.json();
+        console.log({ result })
+
+        router.push("/create-experiences-map", "root", "replace");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <IonPage id="speaker-list">
@@ -75,7 +115,7 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
                 <span className="text-center">Add Activity</span>
                 <span
                   className="text-xs bg-main-color text-white px-4 py-1 rounded-full"
-                  onClick={goBack}
+                  onClick={addExperience}
                 >
                   Next
                 </span>
@@ -118,7 +158,6 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
                         className="absolute top-3 right-3 w-5"
                         src="assets/images/57/delete.png"
                         alt=""
-                        id="open-modal"
                       />
                     </span>
                     <span
@@ -189,18 +228,18 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
                   <img src="assets/images/66/Group 15.png" alt="" />
                 </a>
               </div>
-              <div>
-                <a href="#">
+              <div onClick={openQuickTips}>
+                <span>
                   <img src="assets/images/66/Group 16.png" alt="" />
-                </a>
+                </span>
               </div>
               <div>
                 <a href="#">
                   <img src="assets/images/66/Group 17.png" alt="" />
                 </a>
               </div>
-              <div>
-                <span onClick={goBack}>
+              <div id="open-modal">
+                <span>
                   <img src="assets/images/66/Group 18.png" alt="" />
                 </span>
               </div>
@@ -210,21 +249,21 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
         <IonModal
           ref={modal}
           trigger="open-modal"
-          initialBreakpoint={0.25}
-          breakpoints={[0, 0.25, 0.5, 0.75]}
+          initialBreakpoint={0.5}
+          breakpoints={[0, 0.5, 0.5, 0.75]}
         >
           <IonContent>
+            <h4>Close Experience</h4>
+            <h4>Are you sure you want to close this experience?</h4>
             <IonList>
-              <IonItem>Photo Options</IonItem>
-              <IonItem>Make private</IonItem>
-              <IonItem>Delete photo</IonItem>
+              <IonItem>Yes, close</IonItem>
               <IonItem
-                id="open-photo-menu"
+                id="open-modal"
                 onClick={() => {
                   modal.current?.dismiss();
                 }}
               >
-                Close
+                No, keep it open
               </IonItem>
             </IonList>
           </IonContent>
