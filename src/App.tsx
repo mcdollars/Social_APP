@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Route } from "react-router-dom";
+import { Redirect, Route } from "react-router-dom";
 import { IonApp, IonRouterOutlet, IonSplitPane } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 
@@ -42,6 +42,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import PublicRoute from "./components/PublicRoute";
 import { PrivatePages, PublicPages } from "./routes";
 import RedirectToLogin from "./components/RedirectToLogin";
+import Auth from "./helpers/Auth";
 {
   /*
 import Account from "./pages/Account";
@@ -151,7 +152,7 @@ const IonicApp: React.FC<IonicAppProps> = ({
           key={index}
           exact={route.exact}
           path={route.path}
-          // auth={auth}
+          // auth={Auth}
           // userProfile={userProfile}
           component={route.component}
         />
@@ -162,7 +163,7 @@ const IonicApp: React.FC<IonicAppProps> = ({
       <PublicRoute
         key={index}
         exact={route.exact}
-        // auth={auth}
+        // auth={Auth}
         path={route.path}
         component={route.component}
       />

@@ -78,6 +78,12 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
   const goBack = () => {
     if (router.canGoBack()) {
       router.goBack();
+    }else{
+     router.push(
+       "/tabs/experience",
+       "back",
+       "push"
+     );
     }
   };
 
@@ -234,14 +240,13 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
 
       leafletMap.on("click", (data: any) => {
         marker.setLatLng(data.latlng);
+        setMarkerPosition({ lat: data.latlng.lat, lng: data.latlng.lng });
       });
 
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution:
           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
       }).addTo(leafletMap);
-
-      setMarkerPosition({ lat, lng });
 
       const experiences = await Preferences.get({ key: MY_EXPERIENCE });
       if (experiences.value) {

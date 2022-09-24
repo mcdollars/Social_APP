@@ -64,8 +64,8 @@ const SetupInterest: React.FC<LoginProps> = ({
       const signup = await Store.get("signup");
       // Store.remove("signup");
 
-      const response = await fetch(`${process.env.REACT_APP_API}/api/profile`, {
-        method: "PUT",
+      const response = await fetch(`${process.env.REACT_APP_API}/auth/signup`, {
+        method: "POST",
         body: JSON.stringify({ ...signup, interests: selectedInterest }),
         headers: {
           "Content-Type": "application/json",
@@ -79,7 +79,8 @@ const SetupInterest: React.FC<LoginProps> = ({
         console.log(message.message);
       } else {
         const result = await response.json();
-        set("token", result.token);
+        Store.set("token", result.token);
+        Store.remove('signup')
         await setIsLoggedIn(true);
 
         router.push(

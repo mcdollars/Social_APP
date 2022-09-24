@@ -58,29 +58,27 @@ const Signup: React.FC<SignupProps> = ({
 
     if (email && password && confirmpassword && agree) {
       try {
-        // const response = await fetch(
-        //   `${process.env.REACT_APP_API}/auth/signup`,
-        //   {
-        //     method: "POST",
-        //     body: JSON.stringify({ email, password }),
-        //     headers: {
-        //       "Content-Type": "application/json",
-        //       Accept: "application/json",
-        //     },
-        //   }
-        // );
+        const response = await fetch(
+          `${process.env.REACT_APP_API}/auth/verify`,
+          {
+            method: "POST",
+            body: JSON.stringify({ email, password }),
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+          }
+        );
 
-        // if (!response.ok) {
-        //   const message = await response.json();
-        //   alert(message.message);
-        // } else {
-        //   const result = await response.json();
-        //   set("token", result.token);
+        if (!response.ok) {
+          const message = await response.json();
+          alert(message.message);
+        } else {
+          await response.json();
+          Store.set("signup", { email, password, agree });
 
-        Store.set("signup", { email, password, agree });
-
-        router.push("/signup-complete-profile", "forward", "push");
-        // }
+          router.push("/signup-complete-profile", "forward", "push");
+        }
       } catch (err) {
         alert(err);
         console.log(err);

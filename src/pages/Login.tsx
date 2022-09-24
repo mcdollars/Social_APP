@@ -14,6 +14,7 @@ import { set } from "../util/store";
 // import { GooglePlus } from '@ionic-native/google-plus'
 import { GoogleAuth } from "@codetrix-studio/capacitor-google-auth";
 import { Plugins } from "@capacitor/core";
+import Store from "../helpers/Store";
 
 interface OwnProps extends RouteComponentProps {}
 
@@ -64,11 +65,10 @@ const Login: React.FC<LoginProps> = ({
 
         if (!response.ok) {
           const message = await response.json();
-          alert(message.message);
         } else {
           const result = await response.json();
-          set("token", result.token);
-          history.push("/login-phone-number", { direction: "none" });
+          Store.set("token", result.token);
+          history.push("/tabs/home", { direction: "none" });
         }
       } catch (err) {
         alert(err);

@@ -37,9 +37,15 @@ interface DispatchProps {}
 interface GroupsProps extends OwnProps, StateProps, DispatchProps {}
 
 const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [canDismiss, setCanDismiss] = useState(false);
   const [openExperience, setOpenExperience] = useState(false);
   const modal = useRef<HTMLIonModalElement>(null);
   const experienceModal = useRef<HTMLIonModalElement>(null);
+
+  const openModal = (value: boolean) => {
+    setIsOpen(value);
+  };
 
   return (
     <IonPage id="speaker-list">
@@ -49,8 +55,8 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
             <div className="bg-white px-3 pt-8 pb-2 shadow-md rounded-b-xl">
               <div className="flex justify-between">
                 <div></div>
-                <div>Groups</div>
-                <div>
+                <div>Experiences</div>
+                <div onClick={() => openModal(true)}>
                   <img src="/assets/images/Groups/user-plus.png" alt="" />
                 </div>
               </div>
@@ -70,7 +76,7 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
               <div>
                 <button
                   className="bg-main-color text-white rounded-lg mt-3 mx-5 py-2 px-20 text-sm flex items-center justify-center"
-                  id="open-modal"
+                  onClick={() => openModal(true)}
                 >
                   <img
                     src="/assets/images/Groups/PlusCircle.png"
@@ -84,9 +90,11 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
           </div>
         </div>
         <IonModal
-          ref={modal}
-          trigger="open-modal"
-          initialBreakpoint={0.25}
+          onDidDismiss={() => setIsOpen(false)}
+          isOpen={isOpen}
+          // ref={modal}
+          // trigger="open-modal"
+          initialBreakpoint={0.5}
           breakpoints={[0, 0.25, 0.5, 0.75]}
         >
           <IonContent>

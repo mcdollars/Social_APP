@@ -77,13 +77,14 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
         {
           method: "POST",
           body: JSON.stringify({
+            ...form,
             ...myExperience,
             quickTips: quickTips.map((qt: string) => ({ tip: qt })),
           }),
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
-            // "x-access-token": state.state.token,
+            "x-access-token": await Store.get("token"),
           },
         }
       );
@@ -92,8 +93,9 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
         const message = await response.json();
         console.log(message.message);
       } else {
-        const result = await response.json();
-        console.log({ result })
+        console.log(await response.json());
+        Store.remove("quickTips")
+        Store.remove("photos")
 
         router.push("/create-experiences-map", "root", "replace");
       }
