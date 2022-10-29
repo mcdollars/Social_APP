@@ -22,6 +22,7 @@ import { connect } from "../data/connect";
 import * as selectors from "../data/selectors";
 import CreateExperience from "./CreateExperience";
 import { Storage } from "@capacitor/storage";
+import { all } from "../helpers/Experiences";
 
 const MY_EXPERIENCE = "MYEXPERIENCE";
 
@@ -37,15 +38,25 @@ interface DispatchProps {}
 interface GroupsProps extends OwnProps, StateProps, DispatchProps {}
 
 const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
+  const [experiences, setExperiences] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [canDismiss, setCanDismiss] = useState(false);
   const [openExperience, setOpenExperience] = useState(false);
+
   const modal = useRef<HTMLIonModalElement>(null);
   const experienceModal = useRef<HTMLIonModalElement>(null);
 
   const openModal = (value: boolean) => {
     setIsOpen(value);
   };
+
+  React.useEffect(() => {
+    all()
+      .then(({ experiences }) => {
+        setExperiences(experiences);
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   return (
     <IonPage id="speaker-list">
@@ -61,32 +72,113 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
                 </div>
               </div>
             </div>
-            <div className="flex justify-center items-center flex-col mx-4">
-              <div className="mt-5">
-                <img
-                  src="/assets/images/Groups/Rio de Janeiro-bro 1.png"
-                  alt=""
-                />
+            {experiences && experiences.length !== 0 ? (
+              <div className="content-Experiences">
+                <div className="p-5">
+                  <div className="my-3 font-medium">Your Experiences</div>
+                  {experiences.map((experience: any) => (
+                    <div className="flex mt-2" key={experience.id}>
+                      <img
+                        className="rounded object-fill h-16 w-16"
+                        src={experience.photos[0].webPath}
+                        alt=""
+                      />
+                      <div className="ml-4">
+                        <div className="font-medium">{experience.name}</div>
+                        <div className="bg-green-color text-white rounded text-center py-0.5 px-2 w-fit text-sm">
+                          Open
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                  <div className="flex mt-5">
+                    <img
+                      className="rounded"
+                      src="/assets/images/Groups/Rectangle 14.png"
+                      alt=""
+                    />
+                    <div className="ml-4">
+                      <div className="font-medium">Bali</div>
+                      <div className="bg-secondary-color text-white rounded text-center py-0.5 px-2 w-fit text-sm">
+                        Closed
+                      </div>
+                    </div>
+                  </div>
+                  <div className="my-3 font-medium">Planning Experiences</div>
+                  <div className="flex mt-4">
+                    <img
+                      className="rounded"
+                      src="/assets/images/Groups/Rectangle 14-0.png"
+                      alt=""
+                    />
+                    <div className="ml-4">
+                      <div className="font-medium">Crete</div>
+                      <div className="text-gray-color text-sm">2 places</div>
+                    </div>
+                  </div>
+                  <div className="flex mt-4">
+                    <img
+                      className="rounded"
+                      src="/assets/images/Groups/Rectangle 14-1.png"
+                      alt=""
+                    />
+                    <div className="ml-4">
+                      <div className="font-medium">Santorini</div>
+                      <div className="text-gray-color text-sm">2 places</div>
+                    </div>
+                  </div>
+                  <div className="flex mt-4">
+                    <img
+                      className="rounded"
+                      src="/assets/images/Groups/Rectangle 14-2.png"
+                      alt=""
+                    />
+                    <div className="ml-4">
+                      <div className="font-medium">Mykonos</div>
+                      <div className="text-gray-color text-sm">2 places</div>
+                    </div>
+                  </div>
+                  <div className="flex mt-4">
+                    <img
+                      className="rounded"
+                      src="/assets/images/Groups/Rectangle 14-3.png"
+                      alt=""
+                    />
+                    <div className="ml-4">
+                      <div className="font-medium">Zakintos</div>
+                      <div className="text-gray-color text-sm">2 places</div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <h1 className="font-bold my-3">No experience</h1>
-              <div className="text-center text-sm px-6 mb-3 secondary-color">
-                You don't have any experience yet, you can create a new one now
-                just plan your future experience
-              </div>
-              <div>
-                <button
-                  className="bg-main-color text-white rounded-lg mt-3 mx-5 py-2 px-20 text-sm flex items-center justify-center"
-                  onClick={() => openModal(true)}
-                >
+            ) : (
+              <div className="flex justify-center items-center flex-col mx-4">
+                <div className="mt-5">
                   <img
-                    src="/assets/images/Groups/PlusCircle.png"
+                    src="/assets/images/Groups/Rio de Janeiro-bro 1.png"
                     alt=""
-                    className="mr-2"
                   />
-                  Add Experience
-                </button>
+                </div>
+                <h1 className="font-bold my-3">No experience</h1>
+                <div className="text-center text-sm px-6 mb-3 secondary-color">
+                  You don't have any experience yet, you can create a new one
+                  now just plan your future experience
+                </div>
+                <div>
+                  <button
+                    className="bg-main-color text-white rounded-lg mt-3 mx-5 py-2 px-20 text-sm flex items-center justify-center"
+                    onClick={() => openModal(true)}
+                  >
+                    <img
+                      src="/assets/images/Groups/PlusCircle.png"
+                      alt=""
+                      className="mr-2"
+                    />
+                    Add Experience
+                  </button>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
         <IonModal
@@ -108,6 +200,7 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
 
                   setTimeout(() => {
                     setOpenExperience(true);
+                    setIsOpen(false);
                   }, 800);
                 }}
               >

@@ -71,20 +71,23 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
     try {
       const myExperience = await Store.get("MYEXPERIENCE");
       const quickTips = await Store.get("quickTips");
+      const token = await Store.get("token");
 
       const response = await fetch(
-        `${process.env.REACT_APP_API}/api/experience`,
+        `${process.env.REACT_APP_API}/api/group-experience/${myExperience.id}`,
         {
-          method: "POST",
+          method: "PUT",
           body: JSON.stringify({
             ...form,
             ...myExperience,
-            quickTips: quickTips.map((qt: string) => ({ tip: qt })),
+            ...(quickTips && {
+              quickTips: quickTips.map((qt: string) => ({ tip: qt })),
+            }),
           }),
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
-            "x-access-token": await Store.get("token"),
+            "x-access-token": token,
           },
         }
       );
@@ -94,8 +97,8 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
         console.log(message.message);
       } else {
         console.log(await response.json());
-        Store.remove("quickTips")
-        Store.remove("photos")
+        Store.remove("quickTips");
+        Store.remove("photos");
 
         router.push("/create-experiences-map", "root", "replace");
       }

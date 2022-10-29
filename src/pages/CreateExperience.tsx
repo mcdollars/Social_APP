@@ -20,6 +20,7 @@ import * as selectors from "../data/selectors";
 import { useState } from "react";
 import { Redirect, useHistory } from "react-router";
 import { Storage } from "@capacitor/storage";
+import { create } from "../helpers/GroupExperiences";
 
 interface OwnProps {
   setOpen: any;
@@ -47,18 +48,11 @@ const Groups: React.FC<GroupsProps> = ({ setOpen }) => {
   const handleExperienceSubmit = async (event: any) => {
     event.preventDefault();
     try {
-      // const resp = await fetch(`${process.env.REACT_APP_API}/api/experience`, {
-      //   method: "POST",
-      //   body: JSON.stringify({ ...form }),
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     Accept: "application/json",
-      //   },
-      // });
-
-      // const result = await resp.json();
-      // console.log({ result });
-      Storage.set({ key: MY_EXPERIENCE, value: JSON.stringify(form) });
+      const { groupExperience } = await create(form);
+      Storage.set({
+        key: MY_EXPERIENCE,
+        value: JSON.stringify({ ...groupExperience, photos: [] }),
+      });
       setOpen(false);
       setTimeout(() => {
         router.push("/create-experiences-map", "forward", "push");
@@ -123,9 +117,7 @@ const Groups: React.FC<GroupsProps> = ({ setOpen }) => {
                     type="text"
                     placeholder="(optional)"
                     value={form.name}
-                    onChange={(e) =>
-                      setForm({ ...form, name: e.target.value })
-                    }
+                    onChange={(e) => setForm({ ...form, name: e.target.value })}
                   />
                 </div>
               </div>
