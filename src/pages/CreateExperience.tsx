@@ -55,7 +55,11 @@ const Groups: React.FC<GroupsProps> = ({ setOpen }) => {
       });
       setOpen(false);
       setTimeout(() => {
-        router.push("/create-experiences-map", "forward", "push");
+        router.push(
+          `/create-experiences-map/${groupExperience.id}`,
+          "forward",
+          "push"
+        );
       }, 800);
     } catch (err) {
       console.log({ err });

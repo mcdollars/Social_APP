@@ -14,6 +14,7 @@ import {
   IonList,
   IonItem,
   IonButton,
+  useIonRouter,
 } from "@ionic/react";
 import SpeakerItem from "../components/SpeakerItem";
 import { Speaker } from "../models/Speaker";
@@ -22,7 +23,7 @@ import { connect } from "../data/connect";
 import * as selectors from "../data/selectors";
 import CreateExperience from "./CreateExperience";
 import { Storage } from "@capacitor/storage";
-import { all } from "../helpers/Experiences";
+import { show } from "../helpers/GroupExperiences";
 
 const MY_EXPERIENCE = "MYEXPERIENCE";
 
@@ -46,14 +47,20 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
   const modal = useRef<HTMLIonModalElement>(null);
   const experienceModal = useRef<HTMLIonModalElement>(null);
 
+  const router = useIonRouter();
+
   const openModal = (value: boolean) => {
     setIsOpen(value);
   };
 
+  const showGroupExperience = (id: string) => {
+    router.push(`/create-experiences-map/${id}`, "forward", "push");
+  };
+
   React.useEffect(() => {
-    all()
-      .then(({ experiences }) => {
-        setExperiences(experiences);
+    show()
+      .then(({ groupExperiences }) => {
+        setExperiences(groupExperiences);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -77,18 +84,33 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
                 <div className="p-5">
                   <div className="my-3 font-medium">Your Experiences</div>
                   {experiences.map((experience: any) => (
-                    <div className="flex mt-2" key={experience.id}>
-                      <img
-                        className="rounded object-fill h-16 w-16"
-                        src={experience.photos[0].webPath}
-                        alt=""
-                      />
-                      <div className="ml-4">
-                        <div className="font-medium">{experience.name}</div>
-                        <div className="bg-green-color text-white rounded text-center py-0.5 px-2 w-fit text-sm">
-                          Open
+                    <div
+                      className="flex mt-2"
+                      key={experience.id}
+                      onClick={() => showGroupExperience(experience.id)}
+                    >
+                      <>
+                        {experience.experiences &&
+                        experience.experiences.length > 0 ? (
+                          <>
+                            <img
+                              className="rounded object-fill h-16 w-16 bg-gray-400"
+                              src={experience.experiences[0].photos[0].webPath}
+                              alt=""
+                            />
+                          </>
+                        ) : (
+                          <div className="rounded object-fill h-16 w-16 bg-gray-400">
+                            &nbsp;
+                          </div>
+                        )}
+                        <div className="ml-4">
+                          <div className="font-medium">{experience.name}</div>
+                          <div className="bg-green-color text-white rounded text-center py-0.5 px-2 w-fit text-sm">
+                            Open
+                          </div>
                         </div>
-                      </div>
+                      </>
                     </div>
                   ))}
                   <div className="flex mt-5">

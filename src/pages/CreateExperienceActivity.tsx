@@ -51,7 +51,11 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
         post: form.post,
       }),
     });
-    router.push("/create-experiences-map", "root", "replace");
+    router.push(
+      `/create-experiences-map/${myExperience.id}`,
+      "root",
+      "replace"
+    );
   };
 
   const openQuickTips = async () => {
@@ -99,8 +103,13 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
         console.log(await response.json());
         Store.remove("quickTips");
         Store.remove("photos");
+        Store.set("MYEXPERIENCE", { ...myExperience, photos: [] });
 
-        router.push("/create-experiences-map", "root", "replace");
+        router.push(
+          `/create-experiences-map/${myExperience.id}`,
+          "root",
+          "replace"
+        );
       }
     } catch (err) {
       console.log(err);

@@ -103,6 +103,11 @@ const routes = [
     exact: true,
   },
   {
+    path: "/create-experiences-map/:id",
+    component: CreateExperienceMap,
+    exact: true,
+  },
+  {
     path: "/create-experiences-activity",
     component: CreateExperienceActivity,
     exact: true,

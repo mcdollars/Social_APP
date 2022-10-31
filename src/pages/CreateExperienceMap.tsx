@@ -44,6 +44,8 @@ import { Capacitor } from "@capacitor/core";
 import { Preferences } from "@capacitor/preferences";
 import { decode } from "base64-arraybuffer";
 import moment from "moment";
+import { useParams } from "react-router";
+import { all } from "../helpers/Experiences";
 
 const PHOTO_STORAGE = "photos";
 const MY_EXPERIENCE = "MYEXPERIENCE";
@@ -65,6 +67,7 @@ interface UserPhoto {
 interface GroupsProps extends OwnProps, StateProps, DispatchProps, UserPhoto {}
 
 const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
+  const params: any = useParams();
   let leafletMap: any;
   const lat: number = 41.1533;
   const lng: number = 20.1683;
@@ -72,18 +75,25 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
 
   const router = useIonRouter();
   const [openOption, setOptionOption] = useState(false);
+  const [experience, setExperience] = useState([]);
   const modal = useRef<HTMLIonModalElement>(null);
   const [markerPosition, setMarkerPosition] = useState<any>();
+
+  React.useEffect(() => {
+    if (params) {
+      all(params.id)
+        .then(({ experiences }) => {
+          setExperience(experiences);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, []);
 
   const goBack = () => {
     if (router.canGoBack()) {
       router.goBack();
-    }else{
-     router.push(
-       "/tabs/experience",
-       "back",
-       "push"
-     );
+    } else {
+      router.push("/tabs/experience", "back", "push");
     }
   };
 
@@ -247,34 +257,105 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
         attribution:
           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
       }).addTo(leafletMap);
+    };
 
-      const experiences = await Preferences.get({ key: MY_EXPERIENCE });
-      if (experiences.value) {
-        const experience = JSON.parse(experiences.value);
+    if (params) {
+      all(params.id)
+        .then(({ experiences }) => {
+          if (experiences && experiences.length > 0) {
+            console.log({ experiences });
+            experiences.map((experience: any) => {
+              const icon = L.divIcon({
+                html: `<div class="fixed">
+          <div class="p-2 bg-white rounded-full relative">
+            <img class="rounded-full" style="width:100%; height:100%;" src="${experience.photos[0].webPath}" alt="${experience.name}" />
+          </div>
+          <div class="p-2 bg-white rounded-xl -mt-2">${experience.post} </div>
+          </div>`,
+              });
 
-        if (experience.photos.length > 0) {
-          const icon = L.divIcon({
-            html: `<div class="fixed">
+              const mark: any = new L.Marker(experience.markerPosition, {
+                icon,
+                title: experience.post,
+                interactive: true,
+              });
+
+              mark.addTo(leafletMap);
+            });
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+
+    loadMap().catch(console.error);
+  }, []);
+
+  /*
+  React.useEffect(() => {
+    if (params) {
+      all(params.id)
+        .then(({ experiences }) => {
+          const loadMap = async () => {
+            leafletMap = new L.Map("map");
+            leafletMap.on("load", () => {
+              setTimeout(() => {
+                leafletMap.invalidateSize();
+              }, 10);
+            });
+
+            leafletMap.setView([lat, lng], zoom);
+            let myIcon = L.icon({
+              iconUrl: "assets/images/location-pin.png",
+              iconSize: [40, 40],
+            });
+
+            let marker = new L.Marker([lat, lng], {
+              icon: myIcon,
+              draggable: true,
+              title: "My Experience",
+              interactive: true,
+            });
+
+            marker.addTo(leafletMap);
+
+            leafletMap.on("click", (data: any) => {
+              marker.setLatLng(data.latlng);
+              setMarkerPosition({ lat: data.latlng.lat, lng: data.latlng.lng });
+            });
+
+            L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+              attribution:
+                '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+            }).addTo(leafletMap);
+
+            if (experiences && experiences.length > 0) {
+              experiences.map((experience: any) => {
+                const icon = L.divIcon({
+                  html: `<div class="fixed">
           <div class="p-2 bg-white rounded-full relative">
             <img class="rounded-full" style="width:100%; height:100%;" src="${experience.photos[0].webPath}" alt="${experience.name}" />
           </div>
           <div class="p-2 bg-white rounded-xl -mt-2">${experience.name} </div>
           </div>`,
-          });
+                });
 
-          const mark: any = new L.Marker(experience.markerPosition, {
-            icon,
-            title: experience.post,
-            interactive: true,
-          });
+                const mark: any = new L.Marker(experience.markerPosition, {
+                  icon,
+                  title: experience.post,
+                  interactive: true,
+                });
 
-          mark.addTo(leafletMap);
-        }
-      }
-    };
+                mark.addTo(leafletMap);
+              });
+            }
+          };
 
-    loadMap().catch(console.error);
+          loadMap().catch(console.error);
+        })
+        .catch((err) => console.log(err));
+    }
   }, []);
+  */
 
   return (
     <IonPage id="speaker-list">
