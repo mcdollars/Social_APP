@@ -113,19 +113,6 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
                       </>
                     </div>
                   ))}
-                  <div className="flex mt-5">
-                    <img
-                      className="rounded"
-                      src="/assets/images/Groups/Rectangle 14.png"
-                      alt=""
-                    />
-                    <div className="ml-4">
-                      <div className="font-medium">Bali</div>
-                      <div className="bg-secondary-color text-white rounded text-center py-0.5 px-2 w-fit text-sm">
-                        Closed
-                      </div>
-                    </div>
-                  </div>
                   <div className="my-3 font-medium">Planning Experiences</div>
                   <div className="flex mt-4">
                     <img

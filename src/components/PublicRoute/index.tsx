@@ -8,6 +8,7 @@ import { Route, Redirect } from "react-router-dom";
 import Auth from "../../helpers/Auth";
 import Store from "../../helpers/Store";
 
+/*
 const PublicRoute: React.FC<any> = ({ component: Component, ...rest }) => {
   return (
     <Route
@@ -27,6 +28,20 @@ const PublicRoute: React.FC<any> = ({ component: Component, ...rest }) => {
         // ) : (
         return <Component {...props} />;
         // );
+      }}
+    />
+  );
+};
+
+export default PublicRoute;
+*/
+
+const PublicRoute: React.FC<any> = ({ component: Component, ...rest }) => {
+  return (
+    <Route
+      {...rest}
+      render={(props) => {
+        return <Component {...props} />;
       }}
     />
   );

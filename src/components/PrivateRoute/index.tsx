@@ -6,7 +6,9 @@
 import * as React from "react";
 import { Route, Redirect } from "react-router-dom";
 import Store from "../../helpers/Store";
+import Auth from "../../helpers/Auth";
 
+/*
 const PrivateRoute: React.FC<any> = ({ component: Component, ...rest }) => {
   return (
     <Route
@@ -22,6 +24,24 @@ const PrivateRoute: React.FC<any> = ({ component: Component, ...rest }) => {
         //     }}
         //   />
         // );
+      }}
+    />
+  );
+};
+
+export default PrivateRoute;
+*/
+
+const PrivateRoute: React.FC<any> = ({ component: Component, ...rest }) => {
+  return (
+    <Route
+      {...rest}
+      render={(props) => {
+        return Auth.validate() ? (
+          <Component {...props} />
+        ) : (
+          <Redirect to="/login" />
+        );
       }}
     />
   );

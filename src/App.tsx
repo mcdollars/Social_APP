@@ -182,7 +182,13 @@ const IonicApp: React.FC<IonicAppProps> = ({
               setIsLoggedIn={setIsLoggedIn}
               setUsername={setUsername}
             />
-            <Route path="/tabs" render={() => <MainTabs />} />
+            {getRoutes(PublicPages, "public")}
+            {getRoutes(PrivatePages, "private")}
+            {Auth.validate() ? (
+              <Route path="/tabs" render={() => <MainTabs />} />
+            ) : (
+              <Redirect to="/login" />
+            )}
             {/*
             <Route path="/account" component={Account} />
             <Route path="/login" component={Login} />
@@ -276,8 +282,6 @@ const IonicApp: React.FC<IonicAppProps> = ({
             />
             <Route path="/" component={HomeOrTutorial} exact />
             */}
-            {getRoutes(PublicPages, "public")}
-            {getRoutes(PrivatePages, "private")}
           </IonRouterOutlet>
         </IonSplitPane>
       </IonReactRouter>

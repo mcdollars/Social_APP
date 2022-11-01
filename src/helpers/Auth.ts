@@ -15,11 +15,7 @@ const Auth: any = {
       }
     );
 
-    if (!response.ok) {
-      return false;
-    } else {
-      return true;
-    }
+    return response.ok;
   },
 };
 
