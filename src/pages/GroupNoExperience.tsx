@@ -1,19 +1,12 @@
 import React, { useRef, useState } from "react";
 import {
-  IonHeader,
-  IonToolbar,
-  IonTitle,
   IonContent,
   IonPage,
-  IonButtons,
-  IonMenuButton,
-  IonGrid,
-  IonRow,
-  IonCol,
   IonModal,
   IonList,
   IonItem,
-  IonButton,
+  IonLabel,
+  IonIcon,
   useIonRouter,
 } from "@ionic/react";
 import SpeakerItem from "../components/SpeakerItem";
@@ -24,8 +17,14 @@ import * as selectors from "../data/selectors";
 import CreateExperience from "./CreateExperience";
 import { Storage } from "@capacitor/storage";
 import { show } from "../helpers/GroupExperiences";
+import { useHistory } from 'react-router-dom'
+import PlanExperience from "./PlanExperience";
+import { faL } from "@fortawesome/free-solid-svg-icons";
+import { earth, archive, time } from 'ionicons/icons'
+import CreatePlanExperience from "./CreatePlanExperience";
 
 const MY_EXPERIENCE = "MYEXPERIENCE";
+const PLAN_EXPERIENCE = "PLANEXPERIENCE"
 
 interface OwnProps {}
 
@@ -42,7 +41,8 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
   const [experiences, setExperiences] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [canDismiss, setCanDismiss] = useState(false);
-  const [openExperience, setOpenExperience] = useState(false);
+  const [openExperience, setOpenExperience] = useState<boolean>(false);
+  const [openPlanExperience, setOpenPlanExperience] = useState<boolean>(false);
 
   const modal = useRef<HTMLIonModalElement>(null);
   const experienceModal = useRef<HTMLIonModalElement>(null);
@@ -183,7 +183,7 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
                       alt=""
                       className="mr-2"
                     />
-                    Add Experience
+                    <IonLabel>Add Experience</IonLabel>
                   </button>
                 </div>
               </div>
@@ -200,7 +200,11 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
         >
           <IonContent>
             <IonList>
-              <IonItem>Add</IonItem>
+              <IonItem>
+                <IonLabel style={{fontSize: '14px'}}>
+                  Add
+                </IonLabel>
+              </IonItem>
               <IonItem
                 id="open-create-experience-modal"
                 onClick={() => {
@@ -213,15 +217,36 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
                   }, 800);
                 }}
               >
+                <IonIcon icon={earth}/>
                 New Experience
               </IonItem>
-              <IonItem>Upload from Archive</IonItem>
-              <IonItem>Plan Experiences</IonItem>
+              <IonItem>
+                <IonIcon icon={archive}/>
+                Upload from Archive
+              </IonItem>
+              <IonItem 
+                detail={false} 
+                onClick={(e) => {
+                  modal.current?.dismiss();
+                  Storage.set({ key: PLAN_EXPERIENCE, value: "" });
+
+                  setTimeout(() => {
+                    setOpenPlanExperience(true);
+                    setIsOpen(false);
+                  }, 800);
+                }}
+              >
+                <IonIcon icon={time}/>
+                Plan Experiences
+              </IonItem>
             </IonList>
           </IonContent>
         </IonModal>
         <IonModal isOpen={openExperience}>
           <CreateExperience setOpen={setOpenExperience} />
+        </IonModal>
+        <IonModal isOpen={openPlanExperience}>
+          <PlanExperience setOpen={setOpenPlanExperience} />
         </IonModal>
       </IonContent>
     </IonPage>

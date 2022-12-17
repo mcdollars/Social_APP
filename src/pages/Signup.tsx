@@ -197,7 +197,7 @@ const Signup: React.FC<SignupProps> = ({
           </button>
         </form>
       </div>
-      <div className="fixed bottom-0 left-1/4 font-bold mb-8">
+      <div className="mx-auto font-bold mb-8 mt-4">
         <p>
           Already have an account?{" "}
           <span
@@ -241,7 +241,7 @@ const Signup: React.FC<SignupProps> = ({
               onClick={handleGoogle}
             >
               Sign up with Google{" "}
-            </div>
+            </div>  
             <div className="w-full my-4 border-2 py-4 border-gray-300  rounded-xl">
               Sign up with Apple
             </div>
@@ -249,7 +249,7 @@ const Signup: React.FC<SignupProps> = ({
               Sign up with Facebook
             </div>
           </div>
-          <div className="fixed bottom-0 left-1/4 font-bold mb-8">
+          <div className="fixed top-1 bottom-0 left-1/4 font-bold mb-8">
             <p>
               Already have an account?{" "}
               <span

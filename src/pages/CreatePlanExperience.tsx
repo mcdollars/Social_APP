@@ -1,46 +1,83 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
-  IonHeader,
-  IonToolbar,
-  IonTitle,
+  IonButton,
   IonContent,
   IonPage,
-  IonButtons,
-  IonMenuButton,
-  IonGrid,
-  IonRow,
-  IonCol,
+  IonToggle,
+  IonModal,
+  useIonRouter,
 } from "@ionic/react";
 import SpeakerItem from "../components/SpeakerItem";
 import { Speaker } from "../models/Speaker";
 import { Session } from "../models/Schedule";
 import { connect } from "../data/connect";
 import * as selectors from "../data/selectors";
+import ExperienceMap from './ExperienceMap';
 
-interface OwnProps {}
+interface OwnProps {
+  setOpen: any;
+}
 
 interface StateProps {
   speakers: Speaker[];
   speakerSessions: { [key: string]: Session[] };
 }
 
-interface DispatchProps {}
+interface DispatchProps { }
 
-interface GroupsProps extends OwnProps, StateProps, DispatchProps {}
+interface GroupsProps extends OwnProps, StateProps, DispatchProps { }
 
-const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
+const Groups: React.FC<GroupsProps> = ({ setOpen }) => {
+  const [isDateDefined, setIsDateDefined] = useState<boolean>(false)
+  const [experienceName, setExperienceName] = useState<string>("")
+  const [countryName, setCountryName] = useState<string>("")
+  const [createDisabled, setCreateDisabled] = useState<boolean>(true)
+  const [openExperienceMap, setOpenExperienceMap] = useState<boolean>(false)
+
+  const modal = useRef<HTMLIonModalElement>(null);
+
+  useEffect(() => {
+    if (experienceName != "" && countryName != "") {
+      setCreateDisabled(false)
+    } else {
+      setCreateDisabled(true)
+    }
+  }, [experienceName, countryName])
+
+  const router = useIonRouter()
+
+  const handleCreate = () => {
+    modal.current?.dismiss()
+    setTimeout(() => {
+      setOpenExperienceMap(true)
+    }, 800)
+  }
+
+  const handleAdvanceSetting = () => {
+    modal.current?.dismiss()
+    setTimeout(() => {
+      
+    }, 800)
+  }
+
   return (
     <IonPage id="speaker-list">
       <IonContent>
         <div className="container experience-settings">
           <div className="flex justify-between items-center p-2 shadow-md rounded-b-md">
-            <a className="text-gray-color font-medium text-xs" href="#">
+            <a
+              className="text-gray-color font-medium text-xs"
+              onClick={() => setOpen(false)}
+            >
               Cancel
             </a>
             <span className="text-sm">Plan new experience</span>
-            <span className="bg-lines-color py-1 px-2 text-gray-color rounded-full text-xs">
+            <a
+              className={`font-medium text-xs text-gray-color ${createDisabled ? '' : 'ion-color-primary'}`}
+              onClick={() => handleCreate()}
+            >
               Create
-            </span>
+            </a>
           </div>
           <div className="text-sm px-4 mt-4">
             <div>
@@ -60,6 +97,8 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
                     className="w-full mt-2 border border-slate-100 p-3 rounded-lg"
                     type="text"
                     placeholder="Ex: Vacation in..."
+                    value={experienceName}
+                    onChange={(e) => setExperienceName(e.target.value)}
                   />
                 </div>
               </div>
@@ -78,7 +117,9 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
                   <input
                     className="w-full mt-2 border border-slate-100 p-3 rounded-lg"
                     type="text"
+                    value={countryName}
                     placeholder="Ex: Country name"
+                    onChange={(e) => setCountryName(e.target.value)}
                   />
                 </div>
               </div>
@@ -110,24 +151,36 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
                 <div className="flex justify-between items-center">
                   <span className="text-lg">Date is defined</span>
                   <div>
-                    <img src="assets/images/Groups/Controls.png" alt="" />
+                    <IonToggle
+                      color="success"
+                      checked={isDateDefined}
+                      onChange={() => setIsDateDefined(!isDateDefined)}
+                    />
                   </div>
                 </div>
               </div>
               <hr className="mt-4" />
               <div className="mt-4">
                 <div className="flex justify-between items-center">
-                  <a className="main-color" href="#">
+                  <a className="main-color"
+                  >
                     Advanced settings
                   </a>
                   <div>
-                    <img src="assets/images/experiences/Shape.png" alt="" />
+                    <IonButton
+                      onClick={() => handleAdvanceSetting()}
+                    >
+                      <img src="assets/images/experiences/Shape.png" alt="" />
+                    </IonButton>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <IonModal isOpen={openExperienceMap}>
+          <ExperienceMap setOpen={setOpenExperienceMap} />
+        </IonModal>
       </IonContent>
     </IonPage>
   );

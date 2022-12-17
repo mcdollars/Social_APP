@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   IonHeader,
   IonToolbar,
@@ -18,7 +18,9 @@ import { connect } from "../data/connect";
 import * as selectors from "../data/selectors";
 import { useParams } from "react-router";
 
-interface OwnProps {}
+interface OwnProps {
+  setOpen: any;
+}
 
 interface StateProps {
   speakers: Speaker[];
@@ -29,8 +31,13 @@ interface DispatchProps {}
 
 interface GroupsProps extends OwnProps, StateProps, DispatchProps {}
 
-const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
+const Groups: React.FC<GroupsProps> = ({ setOpen }) => {
   const params: any = useParams();
+
+  useEffect(() => {
+    console.log('entered')
+  },[])
+
   return (
     <IonPage id="speaker-list">
       <IonContent>
@@ -38,7 +45,7 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
           <div className="container experience-settings">
             <div className="pt-4 pb-2 px-2">
               <div className="flex justify-between items-center">
-                <div className="w-8">
+                <div className="w-8" onClick={() => setOpen(false)}>
                   <img src="assets/images/discover/back.png" alt="" />
                 </div>
                 <div className="grow relative">
@@ -50,7 +57,7 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
                   <img
                     className="w-5 absolute top-3 left-2"
                     src="assets/images/discover/search.png"
-                    alt=""
+                    alt="" 
                   />
                 </div>
               </div>

@@ -22,6 +22,8 @@ import {
 import "./MainTabs.scss";
 import Profile from "./Profile";
 import GroupNoExperience from "./GroupNoExperience";
+import Groups from './Groups'
+import Experiences from './Experiences'
 
 interface MainTabsProps {}
 
@@ -37,23 +39,12 @@ const MainTabs: React.FC<MainTabsProps> = () => {
           Use the component prop when your component depends on the RouterComponentProps passed in automatically.
         */}
           <Route path="/tabs/home" render={() => <HomePage />} exact={true} />
-          <Route
-            path="/tabs/speakers"
-            render={() => <SpeakerList />}
-            exact={true}
-          />
-          <Route
-            path="/tabs/speakers/:id"
-            component={SpeakerDetail}
-            exact={true}
-          />
+          <Route path="/tabs/speakers" render={() => <SpeakerList />} exact={true} />
+          <Route path="/tabs/speakers/:id" component={SpeakerDetail} exact={true} />
           {/* <Route path="/tabs/home/:id" component={SessionDetail} /> */}
           <Route path="/tabs/speakers/sessions/:id" component={SessionDetail} />
-          <Route
-            path="/tabs/experience"
-            render={() => <GroupNoExperience />}
-            exact={true}
-          />
+          <Route path="/tabs/experience" render={() => <GroupNoExperience />} exact={true} />
+          <Route path="/tabs/groups" render={() => <Groups />} exact={true} />
           <Route path="/tabs/about" render={() => <About />} exact={true} />
           <Route path="/tabs/profile" render={() => <Profile />} exact={true} />
         </>
@@ -68,10 +59,10 @@ const MainTabs: React.FC<MainTabsProps> = () => {
         <IonTabButton tab="speakers" href="/tabs/speakers" className="bg-white">
           <FontAwesomeIcon icon={faMagnifyingGlass} size="2x" />
         </IonTabButton>
-        <IonTabButton tab="map" href="/tabs/experience" className="bg-white">
+        <IonTabButton tab="experience" href="/tabs/experience" className="bg-white">
           <img src="/assets/img/logo-menu.png" alt="menu-logo" />
         </IonTabButton>
-        <IonTabButton tab="map" href="/tabs/experience" className="bg-white">
+        <IonTabButton tab="group" href="/tabs/groups" className="bg-white">
           <FontAwesomeIcon icon={faUserGroup} size="2x" />
         </IonTabButton>
         <IonTabButton tab="profile" href="/tabs/profile" className="bg-white">

@@ -1,15 +1,9 @@
 import React from "react";
 import {
-  IonHeader,
-  IonToolbar,
-  IonTitle,
   IonContent,
   IonPage,
-  IonButtons,
-  IonMenuButton,
-  IonGrid,
-  IonRow,
-  IonCol,
+  IonToggle,
+  useIonRouter,
 } from "@ionic/react";
 import SpeakerItem from "../components/SpeakerItem";
 import { Speaker } from "../models/Speaker";
@@ -29,12 +23,19 @@ interface DispatchProps {}
 interface GroupsProps extends OwnProps, StateProps, DispatchProps {}
 
 const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
+  const router = useIonRouter()
+
+  const goBack = () => {
+    setTimeout(() => {
+      router.push("/create-plan-experience", "root", "pop");
+    }, 800);
+  };
   return (
     <IonPage id="speaker-list">
       <IonContent>
         <div className="container experience-settings">
           <div className="flex justify-between items-center pt-4 pb-2 px-2 shadow-md rounded-b-md">
-            <div className="w-20">
+            <div className="w-20" onClick={goBack}>
               <img src="assets/images/discover/back.png" alt="" />
             </div>
             <span className="text-sm grow font-medium">Advanced settings</span>
@@ -44,7 +45,7 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
               <div className="flex justify-between items-center">
                 <span className="font-medium">Allow suggestions</span>
                 <div>
-                  <img src="assets/images/Groups/Controls.png" alt="" />
+                  <IonToggle color="success"/>
                 </div>
               </div>
               <div className="mt-2 text-gray-color text-xs">
@@ -55,7 +56,7 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
               <div className="flex justify-between items-center">
                 <span className="font-medium">Receive “Feed” updates</span>
                 <div>
-                  <img src="assets/images/Groups/Controls.png" alt="" />
+                  <IonToggle color="success"/>
                 </div>
               </div>
               <div className="mt-2 text-gray-color text-xs">
@@ -67,7 +68,7 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
               <div className="flex justify-between items-center">
                 <span className="font-medium">Itinerary</span>
                 <div>
-                  <img src="assets/images/Groups/Controls.png" alt="" />
+                  <IonToggle color="success"/>
                 </div>
               </div>
               <div className="mt-2 text-gray-color text-xs">

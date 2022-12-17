@@ -50,6 +50,7 @@ const Login: React.FC<LoginProps> = ({
     }
 
     if (email && password) {
+      console.log(JSON.stringify({ email, password }),'=======> ')
       try {
         const response = await fetch(
           `${process.env.REACT_APP_API}/auth/login`,
@@ -79,7 +80,7 @@ const Login: React.FC<LoginProps> = ({
 
   const handleGoogle = async () => {
     const result = await GoogleAuth.signIn();
-    console.log({ result });
+    console.log({ result }); 
   };
 
   React.useEffect(() => {
@@ -169,7 +170,7 @@ const Login: React.FC<LoginProps> = ({
         </span>
       </div>
 
-      <IonModal isOpen={signupModal}>
+      <IonModal isOpen={signupModal} id="ion-my-modal">
         <div className="p-4">
           <span onClick={() => setSignupModal(false)}>
             <FontAwesomeIcon icon={faClose} size="2x" />
@@ -209,7 +210,7 @@ const Login: React.FC<LoginProps> = ({
               Sign up with Facebook
             </div>
           </div>
-          <div className="fixed bottom-0 left-1/4 font-bold mb-8">
+          <div className="font-bold mb-8">
             <p>
               Already have an account?{" "}
               <span

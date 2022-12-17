@@ -1,19 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
-  IonHeader,
-  IonToolbar,
-  IonTitle,
   IonContent,
   IonPage,
-  IonButtons,
-  IonMenuButton,
-  IonGrid,
-  IonRow,
-  IonCol,
   useIonRouter,
   IonModal,
   IonList,
   IonItem,
+  IonIcon,
 } from "@ionic/react";
 import SpeakerItem from "../components/SpeakerItem";
 import { Speaker } from "../models/Speaker";
@@ -22,6 +15,7 @@ import { connect } from "../data/connect";
 import * as selectors from "../data/selectors";
 import { Preferences } from "@capacitor/preferences";
 import Store from "../helpers/Store";
+import { close } from "ionicons/icons"
 
 interface OwnProps {}
 
@@ -78,9 +72,10 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
       const token = await Store.get("token");
 
       const response = await fetch(
-        `${process.env.REACT_APP_API}/api/group-experience/${myExperience.id}`,
+        // `${process.env.REACT_APP_API}/api/group-experience/${myExperience.id}`,
+        `${process.env.REACT_APP_API}/api/experience`,
         {
-          method: "PUT",
+          method: "POST",
           body: JSON.stringify({
             ...form,
             ...myExperience,
@@ -270,7 +265,12 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
             <h4>Close Experience</h4>
             <h4>Are you sure you want to close this experience?</h4>
             <IonList>
-              <IonItem>Yes, close</IonItem>
+              <IonItem
+                onClick={() => {
+                  router.push("/close-create-experiences","forward","push")
+                  modal.current?.dismiss()
+                }}
+              >Yes, close</IonItem>
               <IonItem
                 id="open-modal"
                 onClick={() => {

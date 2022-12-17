@@ -1,15 +1,8 @@
 import React from "react";
 import {
-  IonHeader,
-  IonToolbar,
-  IonTitle,
   IonContent,
   IonPage,
-  IonButtons,
-  IonMenuButton,
-  IonGrid,
-  IonRow,
-  IonCol,
+  useIonRouter,
 } from "@ionic/react";
 import SpeakerItem from "../components/SpeakerItem";
 import { Speaker } from "../models/Speaker";
@@ -29,13 +22,30 @@ interface DispatchProps {}
 interface GroupsProps extends OwnProps, StateProps, DispatchProps {}
 
 const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
+  const router = useIonRouter();
+
+  const handleClose = () => {
+    setTimeout(() => {
+      router.push("/create-experience-activity", "forward", "push")
+    },800)
+  }
+
+  const handleFinish = () => {
+    setTimeout(() => {
+      router.push("/create-experiences","forward","push")
+    },800)
+  }
+  
   return (
     <IonPage id="speaker-list">
       <IonContent>
         <div>
           <div className="container experience-settings mb-80">
             <div className="pt-4 px-2 pb-2 rounded-b-md shadow-md">
-              <div className="flex justify-between items-center">
+              <div 
+                className="flex justify-between items-center"
+                onClick={handleClose}
+              >
                 <div>
                   <img src="assets/images/discover/close.png" alt="" />
                 </div>
@@ -43,8 +53,8 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
                   Close Experience
                 </span>
                 <a
-                  href="#"
                   className="text-xs font-medium py-1 px-3 bg-main-color text-white rounded-full"
+                  onClick={handleFinish}
                 >
                   Finish
                 </a>

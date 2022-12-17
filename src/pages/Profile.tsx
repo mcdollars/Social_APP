@@ -18,6 +18,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { fetcCurrenthUser } from "../data/api/auth";
 import { GoogleAuth } from "@codetrix-studio/capacitor-google-auth";
+import { usePhotoGallery } from "../helpers/usePhotoGallery";
 
 interface AboutProps {}
 
@@ -25,6 +26,7 @@ const Profile: React.FC<AboutProps> = () => {
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [showInterestModal, setShowInterestModal] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const { photo, takePhoto } = usePhotoGallery()
 
   const interests = [
     { name: "travel" },
@@ -37,7 +39,7 @@ const Profile: React.FC<AboutProps> = () => {
       setCurrentUser(await fetcCurrenthUser());
     };
     fetch();
-  }, [setCurrentUser]);
+  }, [setCurrentUser]); 
 
   const handleGoogle = async () => {
     try {
@@ -70,8 +72,17 @@ const Profile: React.FC<AboutProps> = () => {
           <div className="flex flex-col space-y-4 p-4">
             <div className="flex flex-row justify-between text-center">
               {currentUser && <>current User</>}
-              <div onClick={handleGoogle}>Login Google </div>
-              <div>Profile </div>
+              {/* <div onClick={handleGoogle}>Login Google </div>
+              <div>Profile </div> */}
+              {/* <div>
+                <img
+                  src="https://via.placeholder.com/100x100"
+                  className="object-contain rounded-full w-1/2 p-4"
+                  width="300"
+                  height="300"
+                  alt="logo"
+                />
+              </div> */}
               <div>
                 <div className="font-bold text-xl">12</div>
                 Countries
@@ -154,8 +165,27 @@ const Profile: React.FC<AboutProps> = () => {
                   </div>
                 </div>
                 <div className="flex flex-row justify-between">
-                  <div>Profile</div>
-                  <div>Upload</div>
+                  <div className="flex flex-row justify-between my-6">
+                    {photo ? 
+                      <img
+                        src={photo.webviewPath}
+                        className="object-contain rounded-full w-1/2 p-4"
+                        width="100"
+                        height="100"
+                        alt="logo"
+                        onClick={() => takePhoto()}
+                        /> :
+                        <img
+                        src="https://via.placeholder.com/100x100"
+                        className="object-contain rounded-full w-1/2 p-4"
+                        width="100"
+                        height="100"
+                        alt="logo"
+                        onClick={() => takePhoto()}
+                      />
+                    }
+                    Upload a photo
+                  </div>
                 </div>
                 <div>
                   <label htmlFor="gender">Gender</label>

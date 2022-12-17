@@ -1,5 +1,10 @@
 import React, { useState } from "react";
-import { IonContent, IonPage, useIonRouter } from "@ionic/react";
+import { 
+  IonContent, 
+  IonPage, 
+  useIonRouter, 
+ } from "@ionic/react";
+import { camera } from 'ionicons/icons'
 import "./Login.scss";
 import {
   setIsLoggedIn,
@@ -8,6 +13,7 @@ import {
 } from "../data/user/user.actions";
 import { connect } from "../data/connect";
 import { RouteComponentProps, useLocation } from "react-router";
+import { usePhotoGallery } from "../helpers/usePhotoGallery";
 import Store from "../helpers/Store";
 
 interface OwnProps extends RouteComponentProps {}
@@ -38,6 +44,7 @@ const CompleteProfile: React.FC<LoginProps> = ({
   const router = useIonRouter();
   const location = useLocation();
   const state: any = location.state;
+  const { photo, takePhoto } = usePhotoGallery()
 
   const [formData, setFormData] = useState<SignupForm>({
     firstname: "",
@@ -74,7 +81,7 @@ const CompleteProfile: React.FC<LoginProps> = ({
         //   const result = await response.json();
         //   await setIsLoggedIn(true);
         const signup = await Store.get("signup");
-        formProps.avatar = '';
+        // formProps.avatar = '';
         await Store.set("signup", { ...signup, ...formProps });
 
         router.push(
@@ -114,25 +121,25 @@ const CompleteProfile: React.FC<LoginProps> = ({
               </a>
             </div>
             <div className="flex flex-row justify-between my-6">
-              <img
-                src="https://via.placeholder.com/100x100"
-                className="object-contain rounded-full w-1/2 p-4"
-                width="100"
-                height="100"
-                alt="logo"
-              />
-              <label
-                htmlFor="upload-profile"
-                className="border-2 border-gray-500 rounded-xl w-1/2 h-10 text-center align-text-bottom m-auto pt-2"
-              >
-                Upload
-              </label>
-              <input
-                className="hidden"
-                id="upload-profile"
-                type="file"
-                name="avatar"
-              />
+              {photo ? 
+                <img
+                  src={photo.webviewPath}
+                  className="object-contain rounded-full w-1/2 p-4"
+                  width="100"
+                  height="100"
+                  alt="logo"
+                  onClick={() => takePhoto()}
+                  /> :
+                  <img
+                  src="https://via.placeholder.com/100x100"
+                  className="object-contain rounded-full w-1/2 p-4"
+                  width="100"
+                  height="100"
+                  alt="logo"
+                  onClick={() => takePhoto()}
+                />
+              }
+              {photo ? "Change a photo" : "Upload a photo"}
             </div>
             <div className="flex flex-row justify-between my-6">
               <div className="mr-2">

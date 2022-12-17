@@ -163,56 +163,6 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
                 </div>
               </div>
             </div>
-            <div className="w-full fixed bottom-0 left-0 shadow-md rounded-t-xl bg-white">
-              <div className="flex items-center">
-                <div className="w-1/5 relative pb-6 pt-4">
-                  <div className="">
-                    <img
-                      src="assets/images/discover/Home.png"
-                      className="mx-auto"
-                      alt=""
-                    />
-                  </div>
-                </div>
-                <div className="w-1/5 relative pb-6 pt-4">
-                  <div className="">
-                    <img
-                      src="assets/images/home/search-icon.png"
-                      alt=""
-                      className="mx-auto"
-                    />
-                  </div>
-                </div>
-                <div className="w-1/5 relative pb-6 pt-4">
-                  <div className="item-se">
-                    <img
-                      src="assets/images/home/home-logo.png"
-                      alt=""
-                      className="mx-auto"
-                    />
-                  </div>
-                </div>
-                <div className="w-1/5 relative pb-6 pt-4">
-                  <div className="">
-                    <img
-                      src="assets/images/Groups/3 User.png"
-                      alt=""
-                      className="mx-auto"
-                    />
-                  </div>
-                  <div className="absolute bg-main-color h-1 w-12 rounded-full top-0 left-0 translate-x-1/3"></div>
-                </div>
-                <div className="w-1/5 relative pb-6 pt-4">
-                  <div className="">
-                    <img
-                      src="assets/images/home/small-user-pic.png"
-                      alt=""
-                      className="mx-auto"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </IonContent>

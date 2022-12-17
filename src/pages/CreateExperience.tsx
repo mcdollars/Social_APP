@@ -1,15 +1,10 @@
 import React from "react";
 import {
-  IonHeader,
-  IonToolbar,
-  IonTitle,
   IonContent,
   IonPage,
-  IonButtons,
-  IonMenuButton,
-  IonGrid,
-  IonRow,
-  IonCol,
+  IonItem,
+  IonLabel,
+  IonToggle,
   useIonRouter,
 } from "@ionic/react";
 import SpeakerItem from "../components/SpeakerItem";
@@ -128,10 +123,12 @@ const Groups: React.FC<GroupsProps> = ({ setOpen }) => {
 
               <div className="mt-6">
                 <div className="flex justify-between items-center">
-                  <span className="text-base">My trip public</span>
-                  <div>
-                    <img src="assets/images/Groups/Controls.png" alt="" />
-                  </div>
+                  <IonItem style={{width: '100%'}}>
+                    <IonLabel>My trip public</IonLabel>
+                    <IonToggle 
+                      color="success" 
+                    />
+                  </IonItem>
                 </div>
               </div>
 

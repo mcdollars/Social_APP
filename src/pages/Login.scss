@@ -12,5 +12,11 @@
   .list {
     margin-bottom: 0;
   }
-  
+
+}
+
+#ion-my-modal {
+  #ion-react-wrapper {
+    overflow-x: scroll;
+  }
 }

@@ -1,23 +1,24 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import {
-  IonHeader,
-  IonToolbar,
-  IonTitle,
   IonContent,
   IonPage,
-  IonButtons,
-  IonMenuButton,
-  IonGrid,
-  IonRow,
-  IonCol,
+  IonFab,
+  IonFabButton,
+  IonIcon,
+  IonModal,
+  useIonRouter,
 } from "@ionic/react";
 import SpeakerItem from "../components/SpeakerItem";
 import { Speaker } from "../models/Speaker";
 import { Session } from "../models/Schedule";
 import { connect } from "../data/connect";
+import { add } from 'ionicons/icons'
 import * as selectors from "../data/selectors";
+import SearchPlaces from './SearchPlaces'
 
-interface OwnProps {}
+interface OwnProps {
+  setOpen: any;
+}
 
 interface StateProps {
   speakers: Speaker[];
@@ -28,7 +29,19 @@ interface DispatchProps {}
 
 interface GroupsProps extends OwnProps, StateProps, DispatchProps {}
 
-const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
+const Groups: React.FC<GroupsProps> = ({ setOpen }) => {
+  const [openSearchPlaces, setOpenSearchPlaces] = useState<boolean>(false)
+
+  const modal = useRef<HTMLIonModalElement>(null)
+  const router = useIonRouter()
+  
+  const handleAddClick = () => {
+    modal.current?.dismiss()
+    setTimeout(() => {
+      setOpenSearchPlaces(true)
+    }, 800)
+  }
+
   return (
     <IonPage id="speaker-list">
       <IonContent>
@@ -38,7 +51,7 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
         >
           <div className="pt-4 pb-2 px-2 shadow-md rounded-b-md bg-white">
             <div className="flex justify-between items-center">
-              <div>
+              <div onClick={() => setOpen(false)}>
                 <img src="assets/images/discover/back.png" alt="" />
               </div>
               <div className="flex items-center">
@@ -104,6 +117,18 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
             </div>
           </div>
         </div>
+        <div>
+          <IonFab vertical="bottom" horizontal="end" slot="fixed">
+            <IonFabButton
+              onClick={handleAddClick}
+            >
+              <IonIcon icon={add} />
+            </IonFabButton>
+          </IonFab>
+        </div>
+        <IonModal isOpen={openSearchPlaces}>
+          <SearchPlaces setOpen={setOpenSearchPlaces}/>
+        </IonModal>
       </IonContent>
     </IonPage>
   );

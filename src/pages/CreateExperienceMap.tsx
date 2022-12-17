@@ -93,7 +93,7 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
     if (router.canGoBack()) {
       router.goBack();
     } else {
-      router.push("/tabs/experience", "back", "push");
+      router.push("/tabs/create-experience-activity", "back", "push");
     }
   };
 

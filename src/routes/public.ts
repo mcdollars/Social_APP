@@ -8,6 +8,7 @@ import SignupVerify from "../pages/SignupVerify";
 import CompleteProfile from "../pages/CompleteProfile";
 import SetupInterest from "../pages/SetupInterest";
 import LoginPhoneNumber from "../pages/LoginPhoneNumber";
+import AdvanceSettings from "../pages/AdvanceSettings";
 
 const routes: any = [
   { path: "/login", component: Login, exact: true },
@@ -18,6 +19,7 @@ const routes: any = [
   { path: "/signup-phone-number", component: SignupPhoneNumber, exact: true },
   { path: "/signup-verify-number", component: SignupVerify, exact: true },
   { path: "/signup-interest", component: SetupInterest, exact: true },
+  { path: "/advance-settings", component: AdvanceSettings, exact: true },
   {
     path: "/signup-complete-profile",
     component: CompleteProfile,

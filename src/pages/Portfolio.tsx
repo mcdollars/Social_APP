@@ -29,6 +29,7 @@ interface DispatchProps {}
 interface GroupsProps extends OwnProps, StateProps, DispatchProps {}
 
 const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
+
   return (
     <IonPage id="speaker-list">
       <IonContent>

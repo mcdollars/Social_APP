@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   IonHeader,
   IonToolbar,
@@ -17,7 +17,9 @@ import { Session } from "../models/Schedule";
 import { connect } from "../data/connect";
 import * as selectors from "../data/selectors";
 
-interface OwnProps {}
+interface OwnProps {
+  setOpen: any;
+}
 
 interface StateProps {
   speakers: Speaker[];
@@ -28,7 +30,24 @@ interface DispatchProps {}
 
 interface GroupsProps extends OwnProps, StateProps, DispatchProps {}
 
-const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
+const Groups: React.FC<GroupsProps> = ({ setOpen }) => {
+  const [openNotificationsTab, setOpenNotificationsTab] = useState<boolean>(true)
+  const [openMessageTab, setOpenMessageTab] = useState<boolean>(false)
+
+  const handleNotificationsTab = () => {
+    setTimeout(() => {
+      setOpenNotificationsTab(true)
+      setOpenMessageTab(false)
+    }, 200)
+  }
+
+  const handleMessageTab = () => {
+    setTimeout(() => {
+      setOpenNotificationsTab(false)
+      setOpenMessageTab(true)
+    }, 200)
+  }
+
   return (
     <IonPage id="speaker-list">
       <IonContent>
@@ -41,13 +60,20 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
                     className="w-full"
                     src="assets/images/82-90/close.png"
                     alt=""
+                    onClick={() => setOpen(false)}
                   />
                 </div>
                 <div className="text-main-color bg-lines-color flex text-xs mx-auto font-medium rounded-lg p-px">
-                  <div className="px-4 py-1.5 m-px rounded-lg bg-white">
+                  <div 
+                    className={`px-4 py-1.5 m-px rounded-lg relative ${openNotificationsTab && "bg-white"}`}
+                    onClick={handleNotificationsTab}
+                  >
                     Notifications
                   </div>
-                  <div className="px-4 py-1.5 m-px rounded-lg relative">
+                  <div 
+                    className={`px-4 py-1.5 m-px rounded-lg relative ${openMessageTab && "bg-white"}`}
+                    onClick={handleMessageTab}
+                  >
                     Message
                     <div className="absolute top-1 right-1">
                       <img src="assets/images/82-90/green.png" alt="" />
@@ -58,226 +84,237 @@ const Groups: React.FC<GroupsProps> = ({ speakers, speakerSessions }) => {
             </div>
           </div>
 
-          <div className="p-3 ml-2">
-            <span>New</span>
-          </div>
+          {openNotificationsTab && 
+            <>
+              <div className="p-3 ml-2">
+                <span>New</span>
+              </div>
 
-          <div className="px-3 py-2 flex justify-between bg-lines-color">
-            <div className="flex">
-              <div className="mr-2">
-                <img
-                  className="w-8"
-                  src="assets/images/82-90/noti1.png"
-                  alt=""
-                />
+              <div className="px-3 py-2 flex justify-between bg-lines-color">
+                <div className="flex">
+                  <div className="mr-2">
+                    <img
+                      className="w-8"
+                      src="assets/images/82-90/noti1.png"
+                      alt=""
+                    />
+                  </div>
+                  <div>
+                    <p className="text-xs">
+                      Reminder: you have an event coming up this week:
+                      <span className="font-bold">Uptown meeting</span>
+                    </p>
+                    <p style={{ fontSize: "12px" }} className="text-gray-color">
+                      5 mins ago
+                    </p>
+                  </div>
+                </div>
+                <div>
+                  <a href="#">
+                    <img
+                      className="w-6"
+                      src="assets/images/82-90/More Square.png"
+                      alt=""
+                    />
+                  </a>
+                </div>
               </div>
-              <div>
-                <p className="text-xs">
-                  Reminder: you have an event coming up this week:
-                  <span className="font-bold">Uptown meeting</span>
-                </p>
-                <p style={{ fontSize: "12px" }} className="text-gray-color">
-                  5 mins ago
-                </p>
-              </div>
-            </div>
-            <div>
-              <a href="#">
-                <img
-                  className="w-6"
-                  src="assets/images/82-90/More Square.png"
-                  alt=""
-                />
-              </a>
-            </div>
-          </div>
 
-          <div className="px-3 py-2 flex justify-between bg-lines-color">
-            <div className="flex">
-              <div className="mr-2">
-                <img
-                  className="w-8"
-                  src="assets/images/82-90/noti3.png"
-                  alt=""
-                />
+              <div className="px-3 py-2 flex justify-between bg-lines-color">
+                <div className="flex">
+                  <div className="mr-2">
+                    <img
+                      className="w-8"
+                      src="assets/images/82-90/noti3.png"
+                      alt=""
+                    />
+                  </div>
+                  <div>
+                    <p className="text-xs">
+                      <span className="font-bold">Sam Smith</span> reacted to your
+                      post
+                      <span className="font-bold">Group name </span> post.
+                    </p>
+                    <p style={{ fontSize: "12px" }} className="text-gray-color">
+                      5 mins ago
+                    </p>
+                  </div>
+                </div>
+                <div>
+                  <a href="#">
+                    <img
+                      className="w-6"
+                      src="assets/images/82-90/More Square.png"
+                      alt=""
+                    />
+                  </a>
+                </div>
               </div>
-              <div>
-                <p className="text-xs">
-                  <span className="font-bold">Sam Smith</span> reacted to your
-                  post
-                  <span className="font-bold">Group name </span> post.
-                </p>
-                <p style={{ fontSize: "12px" }} className="text-gray-color">
-                  5 mins ago
-                </p>
-              </div>
-            </div>
-            <div>
-              <a href="#">
-                <img
-                  className="w-6"
-                  src="assets/images/82-90/More Square.png"
-                  alt=""
-                />
-              </a>
-            </div>
-          </div>
 
-          <div className="px-3 py-2 flex justify-between bg-lines-color">
-            <div className="flex">
-              <div className="mr-2">
-                <img
-                  className="w-8"
-                  src="assets/images/82-90/noti4.png"
-                  alt=""
-                />
+              <div className="px-3 py-2 flex justify-between bg-lines-color">
+                <div className="flex">
+                  <div className="mr-2">
+                    <img
+                      className="w-8"
+                      src="assets/images/82-90/noti4.png"
+                      alt=""
+                    />
+                  </div>
+                  <div>
+                    <p className="text-xs">
+                      You have new request to respond in the group
+                      <span className="font-bold">Group name</span>
+                    </p>
+                    <p style={{ fontSize: "12px" }} className="text-gray-color">
+                      5 mins ago
+                    </p>
+                  </div>
+                </div>
+                <div>
+                  <a href="#">
+                    <img
+                      className="w-6"
+                      src="assets/images/82-90/More Square.png"
+                      alt=""
+                    />
+                  </a>
+                </div>
               </div>
-              <div>
-                <p className="text-xs">
-                  You have new request to respond in the group
-                  <span className="font-bold">Group name</span>
-                </p>
-                <p style={{ fontSize: "12px" }} className="text-gray-color">
-                  5 mins ago
-                </p>
-              </div>
-            </div>
-            <div>
-              <a href="#">
-                <img
-                  className="w-6"
-                  src="assets/images/82-90/More Square.png"
-                  alt=""
-                />
-              </a>
-            </div>
-          </div>
 
-          <div className="px-3 py-2 flex justify-between bg-lines-color">
-            <div className="flex">
-              <div className="mr-2">
-                <img
-                  className="w-8"
-                  src="assets/images/82-90/noti1.png"
-                  alt=""
-                />
+              <div className="px-3 py-2 flex justify-between bg-lines-color">
+                <div className="flex">
+                  <div className="mr-2">
+                    <img
+                      className="w-8"
+                      src="assets/images/82-90/noti1.png"
+                      alt=""
+                    />
+                  </div>
+                  <div>
+                    <p className="text-xs">
+                      Group name has 1 new post to see
+                      <span className="font-bold">Uptown meeting</span>
+                    </p>
+                    <p style={{ fontSize: "12px" }} className="text-gray-color">
+                      5 mins ago
+                    </p>
+                  </div>
+                </div>
+                <div>
+                  <a href="#">
+                    <img
+                      className="w-6"
+                      src="assets/images/82-90/More Square.png"
+                      alt=""
+                    />
+                  </a>
+                </div>
               </div>
-              <div>
-                <p className="text-xs">
-                  Group name has 1 new post to see
-                  <span className="font-bold">Uptown meeting</span>
-                </p>
-                <p style={{ fontSize: "12px" }} className="text-gray-color">
-                  5 mins ago
-                </p>
-              </div>
-            </div>
-            <div>
-              <a href="#">
-                <img
-                  className="w-6"
-                  src="assets/images/82-90/More Square.png"
-                  alt=""
-                />
-              </a>
-            </div>
-          </div>
 
-          <div className="px-3 py-2 flex justify-between bg-lines-color">
-            <div className="flex">
-              <div className="mr-2">
-                <img
-                  className="w-8"
-                  src="assets/images/82-90/noti2.png"
-                  alt=""
-                />
+              <div className="px-3 py-2 flex justify-between bg-lines-color">
+                <div className="flex">
+                  <div className="mr-2">
+                    <img
+                      className="w-8"
+                      src="assets/images/82-90/noti2.png"
+                      alt=""
+                    />
+                  </div>
+                  <div>
+                    <p className="text-xs">
+                      <span className="font-bold">Diana Smith</span> commented on
+                      your post in
+                      <span className="font-bold">Group name.</span>
+                    </p>
+                    <p style={{ fontSize: "12px" }} className="text-gray-color">
+                      5 mins ago
+                    </p>
+                  </div>
+                </div>
+                <div>
+                  <a href="#">
+                    <img
+                      className="w-6"
+                      src="assets/images/82-90/More Square.png"
+                      alt=""
+                    />
+                  </a>
+                </div>
               </div>
-              <div>
-                <p className="text-xs">
-                  <span className="font-bold">Diana Smith</span> commented on
-                  your post in
-                  <span className="font-bold">Group name.</span>
-                </p>
-                <p style={{ fontSize: "12px" }} className="text-gray-color">
-                  5 mins ago
-                </p>
-              </div>
-            </div>
-            <div>
-              <a href="#">
-                <img
-                  className="w-6"
-                  src="assets/images/82-90/More Square.png"
-                  alt=""
-                />
-              </a>
-            </div>
-          </div>
 
-          <div className="p-3 ml-2">
-            <span>Earlier</span>
-          </div>
-
-          <div className="px-3 py-2 flex justify-between">
-            <div className="flex">
-              <div className="mr-2">
-                <img
-                  className="w-8"
-                  src="assets/images/82-90/noti6.png"
-                  alt=""
-                />
+              <div className="p-3 ml-2">
+                <span>Earlier</span>
               </div>
-              <div>
-                <p className="text-xs">
-                  You have new request to{" "}
-                  <span className="font-bold">Group name</span>
-                </p>
-                <p style={{ fontSize: "12px" }} className="text-gray-color">
-                  5 mins ago
-                </p>
-              </div>
-            </div>
 
-            <div>
-              <a href="#">
-                <img
-                  className="w-6"
-                  src="assets/images/82-90/More Square.png"
-                  alt=""
-                />
-              </a>
-            </div>
-          </div>
+              <div className="px-3 py-2 flex justify-between">
+                <div className="flex">
+                  <div className="mr-2">
+                    <img
+                      className="w-8"
+                      src="assets/images/82-90/noti6.png"
+                      alt=""
+                    />
+                  </div>
+                  <div>
+                    <p className="text-xs">
+                      You have new request to{" "}
+                      <span className="font-bold">Group name</span>
+                    </p>
+                    <p style={{ fontSize: "12px" }} className="text-gray-color">
+                      5 mins ago
+                    </p>
+                  </div>
+                </div>
 
-          <div className="px-3 py-2 flex justify-between">
-            <div className="flex">
-              <div className="mr-2">
-                <img
-                  className="w-8"
-                  src="assets/images/82-90/noti7.png"
-                  alt=""
-                />
+                <div>
+                  <a href="#">
+                    <img
+                      className="w-6"
+                      src="assets/images/82-90/More Square.png"
+                      alt=""
+                    />
+                  </a>
+                </div>
               </div>
-              <div>
-                <p className="text-xs">
-                  <span className="font-bold">Group name</span> has 1 new post
-                </p>
-                <p style={{ fontSize: "12px" }} className="text-gray-color">
-                  5 mins ago
-                </p>
-              </div>
-            </div>
 
-            <div>
-              <a href="#">
-                <img
-                  className="w-6"
-                  src="assets/images/82-90/More Square.png"
-                  alt=""
-                />
-              </a>
-            </div>
-          </div>
+              <div className="px-3 py-2 flex justify-between">
+                <div className="flex">
+                  <div className="mr-2">
+                    <img
+                      className="w-8"
+                      src="assets/images/82-90/noti7.png"
+                      alt=""
+                    />
+                  </div>
+                  <div>
+                    <p className="text-xs">
+                      <span className="font-bold">Group name</span> has 1 new post
+                    </p>
+                    <p style={{ fontSize: "12px" }} className="text-gray-color">
+                      5 mins ago
+                    </p>
+                  </div>
+                </div>
+
+                <div>
+                  <a href="#">
+                    <img
+                      className="w-6"
+                      src="assets/images/82-90/More Square.png"
+                      alt=""
+                    />
+                  </a>
+                </div>
+              </div>
+            </>
+          }
+
+          {
+            openMessageTab && 
+            <>
+            </>
+          }
+          
         </body>
       </IonContent>
     </IonPage>
