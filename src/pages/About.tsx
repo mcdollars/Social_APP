@@ -90,7 +90,7 @@ const About: React.FC<AboutProps> = () => {
           <h3 className="ion-padding-top ion-padding-start">About</h3>
 
           <p className="ion-padding-start ion-padding-end">
-            The Social Experience
+            EYENIA
           </p>
 
           <h3 className="ion-padding-top ion-padding-start">Details</h3>

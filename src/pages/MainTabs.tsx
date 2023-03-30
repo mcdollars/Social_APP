@@ -13,11 +13,11 @@ import SessionDetail from "./SessionDetail";
 import MapView from "./MapView";
 import About from "./About";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faHouse,
-  faMagnifyingGlass,
+import {  
+  faMapMarkedAlt,  
+  faListDots,
   faUserCircle,
-  faUserGroup,
+  faBell
 } from "@fortawesome/free-solid-svg-icons";
 import "./MainTabs.scss";
 import Profile from "./Profile";
@@ -51,22 +51,19 @@ const MainTabs: React.FC<MainTabsProps> = () => {
       </IonRouterOutlet>
       <IonTabBar
         slot="bottom"
-        className="rounded-t-lg h-14 border-t-2 border-gray-300"
+        className="h-14 border-t-2 border-[#333333] bg-[#333333]"
       >
-        <IonTabButton tab="home" href="/tabs/home" className="bg-white">
-          <FontAwesomeIcon icon={faHouse} size="2x" />
+        <IonTabButton tab="home" href="/tabs/home" className="bg-[#333333]">
+          <FontAwesomeIcon icon={faMapMarkedAlt} size="3x" />
         </IonTabButton>
-        <IonTabButton tab="speakers" href="/tabs/speakers" className="bg-white">
-          <FontAwesomeIcon icon={faMagnifyingGlass} size="2x" />
+        <IonTabButton tab="speakers" href="/tabs/speakers" className="bg-[#333333]">
+          <FontAwesomeIcon icon={faListDots} size="3x"  />
         </IonTabButton>
-        <IonTabButton tab="experience" href="/tabs/experience" className="bg-white">
-          <img src="/assets/img/logo-menu.png" alt="menu-logo" />
+        <IonTabButton tab="group" href="/tabs/groups" className="bg-[#333333]">
+          <FontAwesomeIcon icon={faBell} size="3x" />
         </IonTabButton>
-        <IonTabButton tab="group" href="/tabs/groups" className="bg-white">
-          <FontAwesomeIcon icon={faUserGroup} size="2x" />
-        </IonTabButton>
-        <IonTabButton tab="profile" href="/tabs/profile" className="bg-white">
-          <FontAwesomeIcon icon={faUserCircle} size="3x" />
+        <IonTabButton tab="profile" href="/tabs/profile" className="bg-[#333333]">
+          <FontAwesomeIcon icon={faUserCircle} size="3x"/>
         </IonTabButton>
       </IonTabBar>
     </IonTabs>

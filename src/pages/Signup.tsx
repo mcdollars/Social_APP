@@ -33,6 +33,8 @@ const Signup: React.FC<SignupProps> = ({
   setEmail: setEmailAction,
 }) => {
   const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [birthday, setBirthday] = useState("");
   const [password, setPassword] = useState("");
   const [confirmpassword, setConfirmPassword] = useState("");
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -46,15 +48,14 @@ const Signup: React.FC<SignupProps> = ({
   const signup = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormSubmitted(true);
+    /*
     if (!email) {
       setEmailError(true);
     }
     if (!password) {
       setPasswordError(true);
     }
-    if (agree === false) {
-      setTosError(true);
-    }
+    
 
     if (email && password && confirmpassword && agree) {
       try {
@@ -84,6 +85,8 @@ const Signup: React.FC<SignupProps> = ({
         console.log(err);
       }
     }
+    */
+    router.push("/login");
   };
 
   const handleGoogle = async () => {
@@ -98,11 +101,10 @@ const Signup: React.FC<SignupProps> = ({
 
   return (
     <IonPage id="login-page">
-      <div className="flex flex-col h-screen">
-        <div>
-          <img src="assets/img/logo.png" alt="Ionic logo" className="m-4" />
-          <h1 className="text-4xl px-4 py-8">Signup</h1>
-        </div>
+      <div className="flex flex-col h-screen items-center">
+        <div className="pt-24 flex justify-center mb-12">
+          <img src="assets/img/logo.png" alt="Ionic logo" className="m-4" style={{ width: "50%" }} />
+        </div>        
         {/* <button
           className="w-1/2 py-4 border-2 border-gray-400 bg-gray-200 mx-auto rounded-xl"
           onClick={handleGoogle}
@@ -110,29 +112,42 @@ const Signup: React.FC<SignupProps> = ({
           Google Sign in
         </button> */}
 
-        <form noValidate onSubmit={signup} className="px-4 mb-auto">
-          <label htmlFor="email" className="mb-2 block">
-            Email
-          </label>
+        <form noValidate onSubmit={signup} className="px-4 mb-auto w-full">          
           <input
             name="email"
             type="email"
             className="p-2 border-2 border-gray-100 rounded-xl w-full block mb-8"
-            placeholder="Email"
+            placeholder="Email Address"
             value={email}
             onChange={(e) => setEmail(e.target.value!)}
             required
           ></input>
-
           {formSubmitted && emailError && (
             <span className="text-red-400">
               <p className="ion-padding-start">Email is required</p>
             </span>
           )}
 
-          <label htmlFor="email" className="mb-2 block">
-            Password
-          </label>
+          <input
+            name="username"
+            type="username"
+            className="p-2 border-2 border-gray-100 rounded-xl w-full block mb-8"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value!)}
+            required
+          ></input>
+
+          <input
+            name="birthday"
+            type="birthday"
+            className="p-2 border-2 border-gray-100 rounded-xl w-full block mb-8"
+            placeholder="Date of birth"
+            value={birthday}
+            onChange={(e) => setBirthday(e.target.value!)}
+            required
+          ></input>
+
           <input
             name="password"
             type="password"
@@ -148,9 +163,6 @@ const Signup: React.FC<SignupProps> = ({
             </span>
           )}
 
-          <label htmlFor="email" className="mb-2 block">
-            Confirm Password
-          </label>
           <input
             name="confirmpassword"
             type="password"
@@ -170,16 +182,7 @@ const Signup: React.FC<SignupProps> = ({
           )}
 
           <div className="mb-6 text-center">
-            <p>
-              <input
-                type="checkbox"
-                name="agree"
-                value="agree"
-                className="mr-2"
-                onChange={(e) => setAgree(!agree)}
-              />
-              I agree with Terms of Service and Privacy Policy
-            </p>
+            
           </div>
           {formSubmitted && tosError && (
             <span className="text-red-400">
@@ -191,17 +194,17 @@ const Signup: React.FC<SignupProps> = ({
 
           <button
             type="submit"
-            className="w-full py-4 mt-4 bg-purple-600 text-white rounded-xl font-bold"
+            className="w-full py-4 mt-4 bg-black text-white rounded-xl font-bold"
           >
             Signup
           </button>
         </form>
       </div>
-      <div className="mx-auto font-bold mb-8 mt-4">
+      <div className="text-2xl mx-auto font-bold mb-12">
         <p>
-          Already have an account?{" "}
+          
           <span
-            className="py-4 text-purple-600 font-bold"
+            className="text-black-600 font-bold underline"
             onClick={() => history.push("/login", { direction: "none" })}
           >
             Login

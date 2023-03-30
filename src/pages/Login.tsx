@@ -7,7 +7,7 @@ import {
   setEmail,
 } from "../data/user/user.actions";
 import { connect } from "../data/connect";
-import { RouteComponentProps } from "react-router";
+import { Route, RouteComponentProps } from "react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { set } from "../util/store";
@@ -16,7 +16,7 @@ import { GoogleAuth } from "@codetrix-studio/capacitor-google-auth";
 import { Plugins } from "@capacitor/core";
 import Store from "../helpers/Store";
 
-interface OwnProps extends RouteComponentProps {}
+interface OwnProps extends RouteComponentProps { }
 
 interface DispatchProps {
   setIsLoggedIn: typeof setIsLoggedIn;
@@ -24,7 +24,7 @@ interface DispatchProps {
   setEmail: typeof setEmail;
 }
 
-interface LoginProps extends OwnProps, DispatchProps {}
+interface LoginProps extends OwnProps, DispatchProps { }
 
 const Login: React.FC<LoginProps> = ({
   setIsLoggedIn,
@@ -42,6 +42,7 @@ const Login: React.FC<LoginProps> = ({
   const login = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormSubmitted(true);
+    /*
     if (!email) {
       setEmailError(true);
     }
@@ -50,7 +51,7 @@ const Login: React.FC<LoginProps> = ({
     }
 
     if (email && password) {
-      console.log(JSON.stringify({ email, password }),'=======> ')
+      console.log(JSON.stringify({ email, password }), '=======> ')
       try {
         const response = await fetch(
           `${process.env.REACT_APP_API}/auth/login`,
@@ -76,11 +77,13 @@ const Login: React.FC<LoginProps> = ({
         console.log(err);
       }
     }
+    */
+    history.push("/tabs/home");
   };
 
   const handleGoogle = async () => {
     const result = await GoogleAuth.signIn();
-    console.log({ result }); 
+    console.log({ result });
   };
 
   React.useEffect(() => {
@@ -90,10 +93,17 @@ const Login: React.FC<LoginProps> = ({
 
   return (
     <IonPage id="login-page">
-      <div className="flex flex-col h-screen">
-        <div>
-          <img src="assets/img/logo.png" alt="Ionic logo" className="m-4" />
-          <h1 className="text-4xl px-4 py-8">Login</h1>
+      <div className="flex flex-col h-screen items-center">
+        <div className="pt-24 flex justify-center">
+          <img src="assets/img/logo.png" alt="Ionic logo" className="m-4" style={{ width: "50%" }} />
+        </div>
+
+        <div className="mb-8 text-center font-bold pt-24">
+          <span
+            className="text-3xl text-grey-600 underline" onClick={() => history.push("/signup") }
+          >
+            Sign Up
+          </span>
         </div>
         {/* <button
           className="w-1/2 py-4 border-2 border-gray-400 bg-gray-200 mx-auto rounded-xl"
@@ -102,15 +112,13 @@ const Login: React.FC<LoginProps> = ({
           Google Sign in
         </button> */}
 
-        <form noValidate onSubmit={login} className="px-4 mb-auto">
-          <label htmlFor="email" className="mb-2 block">
-            Email
-          </label>
+        <form noValidate onSubmit={login} className="px-4 mb-auto w-full">
+          
           <input
             name="email"
             type="email"
             className="p-2 border-2 border-gray-100 rounded-xl w-full block mb-8"
-            placeholder="Email"
+            placeholder="Email Address"
             value={email}
             onChange={(e) => setEmail(e.target.value!)}
             required
@@ -122,9 +130,6 @@ const Login: React.FC<LoginProps> = ({
             </span>
           )}
 
-          <label htmlFor="email" className="mb-2 block">
-            Password
-          </label>
           <input
             name="password"
             type="password"
@@ -141,34 +146,29 @@ const Login: React.FC<LoginProps> = ({
             </span>
           )}
 
-          <div className="w-full text-right">
+          
+
+          <button
+            type="submit"
+            className="w-full py-4 mt-4 bg-black text-white rounded-xl font-bold"
+          >
+            Login
+          </button>
+
+          <div className="w-full text-center py-8">
             <a
               href="/forgot-password"
-              className="py-4 text-purple-600 font-bold"
+              className="text-black-600 font-bold underline"
             >
               Forgot Password?
             </a>
           </div>
-
-          <button
-            type="submit"
-            className="w-full py-4 mt-4 bg-purple-600 text-white rounded-xl font-bold"
-          >
-            Login
-          </button>
+          <div className="flex justify-center">
+            <img src="assets/img/fingerprint.svg"/>
+          </div>
         </form>
       </div>
-      <div className="mb-8 text-center font-bold">
-        <span>
-          {"Don't have an account? "}
-          <span
-            className="py-4 text-purple-600"
-            onClick={() => setSignupModal(true)}
-          >
-            Sign Up
-          </span>
-        </span>
-      </div>
+
 
       <IonModal isOpen={signupModal} id="ion-my-modal">
         <div className="p-4">

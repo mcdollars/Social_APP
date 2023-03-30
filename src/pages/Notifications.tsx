@@ -12,6 +12,7 @@ import {
   IonCol,
 } from "@ionic/react";
 import SpeakerItem from "../components/SpeakerItem";
+import Messages from './Messages'
 import { Speaker } from "../models/Speaker";
 import { Session } from "../models/Schedule";
 import { connect } from "../data/connect";
@@ -309,9 +310,9 @@ const Groups: React.FC<GroupsProps> = ({ setOpen }) => {
             </>
           }
 
-          {
-            openMessageTab && 
+          { openMessageTab && 
             <>
+             <Messages />
             </>
           }
           

@@ -1,7 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<resources>
-    <string name="app_name">social-experience-app</string>
-    <string name="title_activity_main">social-experience-app</string>
-    <string name="package_name">com.socialexperience.app</string>
-    <string name="custom_url_scheme">com.socialexperience.app</string>
-</resources>
